@@ -1,7 +1,7 @@
 
 ################################################################################
-# LIQUID PROMPT
-# An intelligent and non intrusive prompt for bash and zsh
+# LIQUID
+# An intelligent, adaptive and non-intrusive prompt for zsh
 ################################################################################
 
 
@@ -20,61 +20,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-###########
-# AUTHORS #
-###########
+# See the README.md file for a summary of features and authors
 
-# Alex Prengère     <alexprengere@gmail.com>      # untracked git files
-# Aurelien Requiem  <aurelien@requiem.fr>         # Major clean refactoring, variable path length, error codes, several bugfixes.
-# Brendan Fahy      <bmfahy@gmail.com>            # postfix variable
-# Clément Mathieu   <clement@unportant.info>      # Bazaar support
-# David Loureiro    <david.loureiro@sysfera.com>  # small portability fix
-# Étienne Deparis   <etienne.deparis@umaneti.net> # Fossil support
-# Florian Le Frioux <florian@lefrioux.fr>         # Use ± mark when root in VCS dir.
-# François Schmidts <francois.schmidts@gmail.com> # small code fix, _lq_get_dirtrim
-# Frédéric Lepied   <flepied@gmail.com>           # Python virtual env
-# Jonas Bengtsson   <jonas.b@gmail.com>           # Git remotes fix
-# Joris Dedieu      <joris@pontiac3.nfrance.com>  # Portability framework, FreeBSD support, bugfixes.
-# Joris Vaillant    <joris.vaillant@gmail.com>    # small git fix
-# Luc Didry         <luc@fiat-tux.fr>             # Zsh port, several fix
-# Ludovic Rousseau  <ludovic.rousseau@gmail.com>  # Lot of bugfixes.
-# Nicolas Lacourte  <nicolas@dotinfra.fr>         # screen title
-# nojhan            <nojhan@gmail.com>            # Main author.
-# Olivier Mengué    <dolmen@cpan.org>             # Major optimizations and refactorings everywhere.
-# Poil              <poil@quake.fr>               # speed improvements
-# Thomas Debesse    <thomas.debesse@gmail.com>    # Fix columns use.
-# Yann 'Ze' Richard <ze@nbox.org>                 # Do not fail on missing commands.
-
-# See the README.md file for a summary of features.
-
-# Check for recent enough version of bash.
-if test -n "$BASH_VERSION" -a -n "$PS1" -a -n "$TERM" ; then
-    bash=${BASH_VERSION%.*}; bmajor=${bash%.*}; bminor=${bash#*.}
-    if [[ $bmajor -lt 3 ]] || [[ $bmajor -eq 3 && $bminor -lt 2 ]]; then
-        unset bash bmajor bminor
-        return
-    fi
-    unset bash bmajor bminor
-
-    _LQ_SHELL_bash=true
-    _LQ_SHELL_zsh=false
-    _LQ_OPEN_ESC="\["
-    _LQ_CLOSE_ESC="\]"
-    _LQ_USER_SYMBOL="\u"
-    _LQ_HOST_SYMBOL="\h"
-    _LQ_TIME_SYMBOL="\t"
-elif test -n "$ZSH_VERSION" ; then
-    _LQ_SHELL_bash=false
-    _LQ_SHELL_zsh=true
-    _LQ_OPEN_ESC="%{"
-    _LQ_CLOSE_ESC="%}"
-    _LQ_USER_SYMBOL="%n"
-    _LQ_HOST_SYMBOL="%m"
-    _LQ_TIME_SYMBOL="%*"
-else
-    echo "liquidprompt: shell not supported" >&2
-    return
-fi
+_LQ_OPEN_ESC="%{"
+_LQ_CLOSE_ESC="%}"
+_LQ_USER_SYMBOL="%n"
+_LQ_HOST_SYMBOL="%m"
+_LQ_TIME_SYMBOL="%*"
 
 
 ###############
@@ -245,7 +197,7 @@ esac
 # put an arrow if an http proxy is set
 source _lq_proxy.zsh
 
-# BASH/ZSH function that shortens
+# Function that shortens
 # a very long path for display by removing
 # the left most parts and replacing them
 # with a leading ...
