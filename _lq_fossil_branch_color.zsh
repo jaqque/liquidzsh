@@ -43,20 +43,20 @@ _lq_fossil_branch_color()
         fi
 
         if [[ "$ret" != "" ]] ; then
-            ret="(${LQ_COLOR_DIFF}$ret${NO_COL})"
+            ret="(${LQ_COLOR_DIFF}$ret${LQ_RESET})"
         fi
 
 
         if [[ "$branch" = "no-tag" ]] ; then
             # Warning, your branch has no tag name !
-            branch="${LQ_COLOR_COMMITS}$branch${NO_COL}$ret${LQ_COLOR_COMMITS}$C2A${NO_COL}"
+            branch="${LQ_COLOR_COMMITS}$branch${LQ_RESET}$ret${LQ_COLOR_COMMITS}$C2A${LQ_RESET}"
         else
             if [[ "$C2E" -eq 0 && "$C2D" -eq 0 ]] ; then
                 # All is up-to-date
-                branch="${LQ_COLOR_UP}$branch$C2A${NO_COL}"
+                branch="${LQ_COLOR_UP}$branch$C2A${LQ_RESET}"
             else
                 # There're some changes to commit
-                branch="${LQ_COLOR_CHANGES}$branch${NO_COL}$ret${LQ_COLOR_CHANGES}$C2A${NO_COL}"
+                branch="${LQ_COLOR_CHANGES}$branch${LQ_RESET}$ret${LQ_COLOR_CHANGES}$C2A${LQ_RESET}"
             fi
         fi
         echo -ne $branch # $(_lq_escape "$branch")

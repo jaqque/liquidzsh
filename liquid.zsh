@@ -88,6 +88,9 @@ esac
 # CONFIGURATION #
 #################
 
+autoload -U colors
+colors
+
 # define, run, and forget _lq_source_config()
 source _lq_source_config.zsh
 _lq_source_config
@@ -103,8 +106,8 @@ unset _lq_source_config
 
 # If we are running in a terminal multiplexer, brackets are colored
 if [[ "$TERM" == screen* ]]; then
-    LQ_BRACKET_OPEN="${LQ_COLOR_IN_MULTIPLEXER}${LQ_MARK_BRACKET_OPEN}${NO_COL}"
-    LQ_BRACKET_CLOSE="${LQ_COLOR_IN_MULTIPLEXER}${LQ_MARK_BRACKET_CLOSE}${NO_COL}"
+    LQ_BRACKET_OPEN="${LQ_COLOR_IN_MULTIPLEXER}${LQ_MARK_BRACKET_OPEN}${LQ_RESET}"
+    LQ_BRACKET_CLOSE="${LQ_COLOR_IN_MULTIPLEXER}${LQ_MARK_BRACKET_CLOSE}${LQ_RESET}"
 else
     LQ_BRACKET_OPEN="${LQ_MARK_BRACKET_OPEN}"
     LQ_BRACKET_CLOSE="${LQ_MARK_BRACKET_CLOSE}"
@@ -122,16 +125,16 @@ source _lq_escape.zsh
 if [[ "$EUID" -ne "0" ]] ; then  # if user is not root
     # if user is not login user
     if [[ ${USER} != "$(logname 2>/dev/null || echo $LOGNAME)" ]]; then
-        LQ_USER="${LQ_COLOR_USER_ALT}${_LQ_USER_SYMBOL}${NO_COL}"
+        LQ_USER="${LQ_COLOR_USER_ALT}${_LQ_USER_SYMBOL}${LQ_RESET}"
     else
         if [[ "${LQ_USER_ALWAYS}" -ne "0" ]] ; then
-            LQ_USER="${LQ_COLOR_USER_LOGGED}${_LQ_USER_SYMBOL}${NO_COL}"
+            LQ_USER="${LQ_COLOR_USER_LOGGED}${_LQ_USER_SYMBOL}${LQ_RESET}"
         else
             LQ_USER=""
         fi
     fi
 else
-    LQ_USER="${LQ_COLOR_USER_ROOT}${_LQ_USER_SYMBOL}${NO_COL}"
+    LQ_USER="${LQ_COLOR_USER_ROOT}${_LQ_USER_SYMBOL}${LQ_RESET}"
 fi
 
 
@@ -154,9 +157,9 @@ source _lq_chroot.zsh
 
 # If we are connected with a X11 support
 if [[ -n "$DISPLAY" ]] ; then
-    LQ_HOST="${LQ_COLOR_X11_ON}${LQ_HOST}@${NO_COL}"
+    LQ_HOST="${LQ_COLOR_X11_ON}${LQ_HOST}@${LQ_RESET}"
 else
-    LQ_HOST="${LQ_COLOR_X11_OFF}${LQ_HOST}@${NO_COL}"
+    LQ_HOST="${LQ_COLOR_X11_OFF}${LQ_HOST}@${LQ_RESET}"
 fi
 
 case "$(_lq_connection)" in
@@ -165,7 +168,7 @@ lcl)
         # FIXME do we want to display the chroot if local?
         LQ_HOST="" # no hostname if local
     else
-        LQ_HOST="${LQ_HOST}${LQ_COLOR_HOST}${_LQ_HOST_SYMBOL}${NO_COL}"
+        LQ_HOST="${LQ_HOST}${LQ_COLOR_HOST}${_LQ_HOST_SYMBOL}${LQ_RESET}"
     fi
     ;;
 ssh)
@@ -176,19 +179,19 @@ ssh)
         # FIXME check portability of cksum and add more formats (bold? 256 colors?)
         hash=$(( 1 + $(hostname | cksum | cut -d " " -f 1) % 6 ))
         color=${_LQ_OPEN_ESC}$(ti_setaf $hash)${_LQ_CLOSE_ESC}
-        LQ_HOST="${LQ_HOST}${color}${_LQ_HOST_SYMBOL}${NO_COL}"
+        LQ_HOST="${LQ_HOST}${color}${_LQ_HOST_SYMBOL}${LQ_RESET}"
         unset hash
         unset color
     else
         # the same color for all hosts
-        LQ_HOST="${LQ_HOST}${LQ_COLOR_SSH}${_LQ_HOST_SYMBOL}${NO_COL}"
+        LQ_HOST="${LQ_HOST}${LQ_COLOR_SSH}${_LQ_HOST_SYMBOL}${LQ_RESET}"
     fi
     ;;
 su)
-    LQ_HOST="${LQ_HOST}${LQ_COLOR_SU}${_LQ_HOST_SYMBOL}${NO_COL}"
+    LQ_HOST="${LQ_HOST}${LQ_COLOR_SU}${_LQ_HOST_SYMBOL}${LQ_RESET}"
     ;;
 tel)
-    LQ_HOST="${LQ_HOST}${LQ_COLOR_TELNET}${_LQ_HOST_SYMBOL}${NO_COL}"
+    LQ_HOST="${LQ_HOST}${LQ_COLOR_TELNET}${_LQ_HOST_SYMBOL}${LQ_RESET}"
     ;;
 *)
     LQ_HOST="${LQ_HOST}${_LQ_HOST_SYMBOL}" # defaults to no color

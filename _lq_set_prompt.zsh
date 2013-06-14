@@ -85,9 +85,9 @@ _lq_set_prompt()
 
         # Different path color if root
         if [[ "$EUID" -ne "0" ]] ; then
-            LQ_PWD="${LQ_COLOR_PATH}${LQ_PWD}${NO_COL}"
+            LQ_PWD="${LQ_COLOR_PATH}${LQ_PWD}${LQ_RESET}"
         else
-            LQ_PWD="${LQ_COLOR_PATH_ROOT}${LQ_PWD}${NO_COL}"
+            LQ_PWD="${LQ_COLOR_PATH_ROOT}${LQ_PWD}${LQ_RESET}"
         fi
         LQ_OLD_PWD="$PWD"
 

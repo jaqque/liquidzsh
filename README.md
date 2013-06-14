@@ -228,7 +228,7 @@ part
 For example, if you just want to have liquid displaying the user and the
 host, with a normal full path in blue and only the git support:
 
-    export LQ_PS1=`echo -ne "[\${LQ_USER}\${LQ_HOST}:\${BLUE}\$(pwd)\${NO_COL}] \${LQ_GIT} \\\$ "`
+    export LQ_PS1=`echo -ne "[\${LQ_USER}\${LQ_HOST}:\${BLUE}\$(pwd)\${LQ_RESET}] \${LQ_GIT} \\\$ "`
 
 Note that you need to properly escape percent signs in a string that will be
 interpreted by zsh at each prompt.
@@ -246,11 +246,23 @@ sourcing your favorite theme file (`*.theme`) in the configuration file.
 ### COLORS
 
 Available colors are:
-BOLD, BLACK, BOLD_GRAY, WHITE, BOLD_WHITE,
-GREEN, BOLD_GREEN, YELLOW, BOLD_YELLOW, BLUE, BOLD_BLUE, PINK, CYAN, BOLD_CYAN
-RED, BOLD_RED, WARN_RED, CRIT_RED, DANGER_RED,
-NO_COL.
-Set to a null string "" if you do not want color.
+* BOLD
+* BLACK, GRAY, WHITE, BRIGHT_WHITE
+* PINK
+* PURPLE,
+* BLUE, BRIGHT_BLUE
+* CYAN, BRIGHT_CYAN
+* GREEN, BRIGHT_GREEN
+* YELLOW, BRIGHT_YELLOW
+* RED, BRIGHT_RED
+* WARNING, DANGER, CRITICAL
+
+You can also use the `$fg[*]`, `$fg_bold[*]`, `$bg[*]`, `$bg_bold[*]` colors
+as well, but be certain to wrap them in `%{%}`:
+
+`LQ_COLOR_SSH="%{$bg[blue]$fg_bold[black]%}`
+
+Set to a null string '' if you do not want color.
 
 * Current working directory
     * `LQ_COLOR_PATH` as normal user

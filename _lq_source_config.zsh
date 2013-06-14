@@ -10,55 +10,41 @@
 _lq_source_config()
 {
 
-    # TermInfo feature detection
-    local ti_sgr0="$( { tput sgr0 || tput me ; } 2>/dev/null )"
-    local ti_bold="$( { tput bold || tput md ; } 2>/dev/null )"
-    local ti_setaf
-    if tput setaf >/dev/null 2>&1 ; then
-        ti_setaf () { tput setaf "$1" ; }
-    elif tput AF >/dev/null 2>&1 ; then
-        # *BSD
-        ti_setaf () { tput AF "$1" ; }
-    else
-        echo "liquidprompt: terminal $TERM not supported" >&2
-        ti_setaf () { : ; }
-    fi
-
     # Colors: variables are local so they will have a value only
     # during config loading and will not conflict with other values
     # with the same names defined by the user outside the config.
-    local BOLD="${_LQ_OPEN_ESC}${ti_bold}${_LQ_CLOSE_ESC}"
+    local        BOLD="%{$bold_color%}"
 
-    local BLACK="${_LQ_OPEN_ESC}$(ti_setaf 0)${_LQ_CLOSE_ESC}"
-    local BOLD_GRAY="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 0)${_LQ_CLOSE_ESC}"
-    local WHITE="${_LQ_OPEN_ESC}$(ti_setaf 7)${_LQ_CLOSE_ESC}"
-    local BOLD_WHITE="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 7)${_LQ_CLOSE_ESC}"
+    local       BLACK="%{fg[black]%}"
+    local        GRAY="%{$fg_bold[black]%}"
 
-    local RED="${_LQ_OPEN_ESC}$(ti_setaf 1)${_LQ_CLOSE_ESC}"
-    local BOLD_RED="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 1)${_LQ_CLOSE_ESC}"
-    local WARN_RED="${_LQ_OPEN_ESC}$(ti_setaf 0 ; tput setab 1)${_LQ_CLOSE_ESC}"
-    local CRIT_RED="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 7 ; tput setab 1)${_LQ_CLOSE_ESC}"
-    local DANGER_RED="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 3 ; tput setab 1)${_LQ_CLOSE_ESC}"
+    local         RED="%{$fg[red]%}"
+    local  BRIGHT_RED="%{$fg_bold[red]%}"
 
-    local GREEN="${_LQ_OPEN_ESC}$(ti_setaf 2)${_LQ_CLOSE_ESC}"
-    local BOLD_GREEN="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 2)${_LQ_CLOSE_ESC}"
+    local        GREEN="%{$fg[green]%}"
+    local BRIGHT_GREEN="%{$fg_bold[green]%}"
 
-    local YELLOW="${_LQ_OPEN_ESC}$(ti_setaf 3)${_LQ_CLOSE_ESC}"
-    local BOLD_YELLOW="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 3)${_LQ_CLOSE_ESC}"
+    local        YELLOW="%{$fg[yellow]%}"
+    local BRIGHT_YELLOW="%{$fg_bold[yellow]%}"
 
-    local BLUE="${_LQ_OPEN_ESC}$(ti_setaf 4)${_LQ_CLOSE_ESC}"
-    local BOLD_BLUE="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 4)${_LQ_CLOSE_ESC}"
+    local          BLUE="%{$fg[blue]%}"
+    local   BRIGHT_BLUE="%{$fg_bold[blue]%}"
 
-    local PURPLE="${_LQ_OPEN_ESC}$(ti_setaf 5)${_LQ_CLOSE_ESC}"
-    local PINK="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 5)${_LQ_CLOSE_ESC}"
+    local        PURPLE="%{$fg[magenta]%}"
+    local          PINK="%{$fg_bold[magenta]%}"
 
-    local CYAN="${_LQ_OPEN_ESC}$(ti_setaf 6)${_LQ_CLOSE_ESC}"
-    local BOLD_CYAN="${_LQ_OPEN_ESC}${ti_bold}$(ti_setaf 6)${_LQ_CLOSE_ESC}"
+    local          CYAN="%{$fg[cyan]%}"
+    local   BRIGHT_CYAN="%{$fg_bold[cyan]%}"
 
-    # NO_COL is special: it will be used at runtime, not just during config loading
-    NO_COL="${_LQ_OPEN_ESC}${ti_sgr0}${_LQ_CLOSE_ESC}"
+    local         WHITE="%{$fg[white]%}"
+    local  BRIGHT_WHITE="%{$fg_bold[white]%}"
 
-    unset ti_sgr0 ti_bold ti_setaf
+    local       WARNING="%{$bg[red]$fg[black]%}"
+    local        DANGER="%{$bg[red]$fg_bold[white]%}"
+    local      CRITICAL="%{$bg[red]$fg_bold[yellow]%}"
+
+    # LQ_RESET is special: it will be used at runtime as well
+    LQ_RESET="%{$reset_color%}"
 
 
     # Default values (globals)
@@ -75,8 +61,8 @@ _lq_source_config()
     LQ_PS1_POSTFIX=${LQ_PS1_POSTFIX:-""}
     LQ_TITLE_OPEN=${LQ_TITLE_OPEN:-"\e]0;"}
     LQ_TITLE_CLOSE=${LQ_TITLE_CLOSE:-"\a"}
-    LQ_SCREEN_TITLE_OPEN=${LQ_SCREEN_TITLE_OPEN:-"\033k"}
-    LQ_SCREEN_TITLE_CLOSE=${LQ_SCREEN_TITLE_CLOSE:-"\033\134"}
+    LQ_SCREEN_TITLE_OPEN=${LQ_SCREEN_TITLE_OPEN:-"\ek"}
+    LQ_SCREEN_TITLE_CLOSE=${LQ_SCREEN_TITLE_CLOSE:-"\e\\"}
 
     LQ_ENABLE_PERM=${LQ_ENABLE_PERM:-1}
     LQ_ENABLE_SHORTEN_PATH=${LQ_ENABLE_SHORTEN_PATH:-1}
@@ -117,24 +103,24 @@ _lq_source_config()
     LQ_MARK_SHORTEN_PATH=${LQ_MARK_SHORTEN_PATH:-" … "}
 
     LQ_COLOR_PATH=${LQ_COLOR_PATH:-$BOLD}
-    LQ_COLOR_PATH_ROOT=${LQ_COLOR_PATH_ROOT:-$BOLD_YELLOW}
-    LQ_COLOR_PROXY=${LQ_COLOR_PROXY:-$BOLD_BLUE}
+    LQ_COLOR_PATH_ROOT=${LQ_COLOR_PATH_ROOT:-$BRIGHT_YELLOW}
+    LQ_COLOR_PROXY=${LQ_COLOR_PROXY:-$BRIGHT_BLUE}
     LQ_COLOR_JOB_D=${LQ_COLOR_JOB_D:-$YELLOW}
-    LQ_COLOR_JOB_R=${LQ_COLOR_JOB_R:-$BOLD_YELLOW}
-    LQ_COLOR_JOB_Z=${LQ_COLOR_JOB_Z:-$BOLD_YELLOW}
+    LQ_COLOR_JOB_R=${LQ_COLOR_JOB_R:-$BRIGHT_YELLOW}
+    LQ_COLOR_JOB_Z=${LQ_COLOR_JOB_Z:-$BRIGHT_YELLOW}
     LQ_COLOR_ERR=${LQ_COLOR_ERR:-$PURPLE}
     LQ_COLOR_MARK=${LQ_COLOR_MARK:-$BOLD}
-    LQ_COLOR_MARK_ROOT=${LQ_COLOR_MARK_ROOT:-$BOLD_RED}
+    LQ_COLOR_MARK_ROOT=${LQ_COLOR_MARK_ROOT:-$BRIGHT_RED}
     LQ_COLOR_USER_LOGGED=${LQ_COLOR_USER_LOGGED:-""}
     LQ_COLOR_USER_ALT=${LQ_COLOR_USER_ALT:-$BOLD}
-    LQ_COLOR_USER_ROOT=${_ROOT:-$BOLD_YELLOW}
+    LQ_COLOR_USER_ROOT=${_ROOT:-$BRIGHT_YELLOW}
     LQ_COLOR_HOST=${LQ_COLOR_HOST:-""}
     LQ_COLOR_SSH=${LQ_COLOR_SSH:-$BLUE}
-    LQ_COLOR_SU=${LQ_COLOR_SU:-$BOLD_YELLOW}
-    LQ_COLOR_TELNET=${LQ_COLOR_TELNET:-$WARN_RED}
-    LQ_COLOR_X11_ON=${LQ_COLOR_X11:-$GREEN}
-    LQ_COLOR_X11_OFF=${LQ_COLOR_X11:-$YELLOW}
-    LQ_COLOR_WRITE=${LQ_COLOR_WRITE:-$GREEN}
+    LQ_COLOR_SU=${LQ_COLOR_SU:-$BRIGHT_YELLOW}
+    LQ_COLOR_TELNET=${LQ_COLOR_TELNET:-$WARNING}
+    LQ_COLOR_X11=${LQ_COLOR_X11:-""}
+    LQ_COLOR_NOX11=${LQ_COLOR_X11:-$YELLOW}
+    LQ_COLOR_WRITE=${LQ_COLOR_WRITE:-""}
     LQ_COLOR_NOWRITE=${LQ_COLOR_NOWRITE:-$RED}
     LQ_COLOR_UP=${LQ_COLOR_UP:-$GREEN}
     LQ_COLOR_COMMITS=${LQ_COLOR_COMMITS:-$YELLOW}
@@ -145,18 +131,19 @@ _lq_source_config()
     LQ_COLOR_DISCHARGING_ABOVE=${LQ_COLOR_DISCHARGING_ABOVE:-$YELLOW}
     LQ_COLOR_DISCHARGING_UNDER=${LQ_COLOR_DISCHARGING_UNDER:-$RED}
     LQ_COLOR_TIME=${LQ_COLOR_TIME:-$BLUE}
-    LQ_COLOR_IN_MULTIPLEXER=${LQ_COLOR_IN_MULTIPLEXER:-$BOLD_BLUE}
+    LQ_COLOR_IN_MULTIPLEXER=${LQ_COLOR_IN_MULTIPLEXER:-$BRIGHT_BLUE}
 
-    LQ_COLORMAP_0=${LQ_COLORMAP_0:-""}
-    LQ_COLORMAP_1=${LQ_COLORMAP_1:-$GREEN}
-    LQ_COLORMAP_2=${LQ_COLORMAP_2:-$BOLD_GREEN}
-    LQ_COLORMAP_3=${LQ_COLORMAP_3:-$YELLOW}
-    LQ_COLORMAP_4=${LQ_COLORMAP_4:-$BOLD_YELLOW}
-    LQ_COLORMAP_5=${LQ_COLORMAP_5:-$RED}
-    LQ_COLORMAP_6=${LQ_COLORMAP_6:-$BOLD_RED}
-    LQ_COLORMAP_7=${LQ_COLORMAP_7:-$WARN_RED}
-    LQ_COLORMAP_8=${LQ_COLORMAP_8:-$CRIT_RED}
-    LQ_COLORMAP_9=${LQ_COLORMAP_9:-$DANGER_RED}
+    typeset -A LQ_HEATMAP
+    LQ_HEATMAP[0]=${LQ_HEATMAP[0]:-""}
+    LQ_HEATMAP[1]=${LQ_HEATMAP[1]:-$GREEN}
+    LQ_HEATMAP[2]=${LQ_HEATMAP[2]:-$BRIGHT_GREEN}
+    LQ_HEATMAP[3]=${LQ_HEATMAP[3]:-$YELLOW}
+    LQ_HEATMAP[4]=${LQ_HEATMAP[4]:-$BRIGHT_YELLOW}
+    LQ_HEATMAP[5]=${LQ_HEATMAP[5]:-$RED}
+    LQ_HEATMAP[6]=${LQ_HEATMAP[6]:-$BRIGHT_RED}
+    LQ_HEATMAP[7]=${LQ_HEATMAP[7]:-$WARNING}
+    LQ_HEATMAP[8]=${LQ_HEATMAP[8]:-$DANGER}
+    LQ_HEATMAP[9]=${LQ_HEATMAP[9]:-$CRITICAL}
 
 
     # Default config file may be the XDG standard ~/.config/liquidpromptrc,

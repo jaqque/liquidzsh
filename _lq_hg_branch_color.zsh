@@ -28,18 +28,18 @@ _lq_hg_branch_color()
         if [[ $(( $(hg status --quiet -n | wc -l) )) = 0 ]] ; then
             if [[ "$has_commit" -gt "0" ]] ; then
                 # some commit(s) to push
-                ret="${LQ_COLOR_COMMITS}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$has_commit${NO_COL})${has_untracked}${NO_COL}"
+                ret="${LQ_COLOR_COMMITS}${branch}${LQ_RESET}(${LQ_COLOR_COMMITS}$has_commit${LQ_RESET})${has_untracked}${LQ_RESET}"
             else
-                ret="${LQ_COLOR_UP}${branch}${has_untracked}${NO_COL}" # nothing to commit or push
+                ret="${LQ_COLOR_UP}${branch}${has_untracked}${LQ_RESET}" # nothing to commit or push
             fi
         else
             local has_line
             has_lines=$(hg diff --stat 2>/dev/null | tail -n 1 | awk 'FS=" " {printf("+%s/-%s\n", $4, $6)}')
             if [[ "$has_commit" -gt "0" ]] ; then
                 # Changes to commit and commits to push
-                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL},${LQ_COLOR_COMMITS}$has_commit${NO_COL})${has_untracked}${NO_COL}"
+                ret="${LQ_COLOR_CHANGES}${branch}${LQ_RESET}(${LQ_COLOR_DIFF}$has_lines${LQ_RESET},${LQ_COLOR_COMMITS}$has_commit${LQ_RESET})${has_untracked}${LQ_RESET}"
             else
-                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL})${has_untracked}${NO_COL}" # changes to commit
+                ret="${LQ_COLOR_CHANGES}${branch}${LQ_RESET}(${LQ_COLOR_DIFF}$has_lines${LQ_RESET})${has_untracked}${LQ_RESET}" # changes to commit
             fi
         fi
         echo -ne "$ret"

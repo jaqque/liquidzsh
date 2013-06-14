@@ -21,7 +21,7 @@ _lq_load_color()
         if [[ "$LQ_PERCENTS_ALWAYS" -eq "1" ]]; then
             ret="${ret}$load%%"
         fi
-        echo -ne "${ret}${NO_COL}"
+        echo -ne "${ret}${LQ_RESET}"
     fi
 }
 

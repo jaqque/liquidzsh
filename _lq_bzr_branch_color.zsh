@@ -17,9 +17,9 @@ _lq_bzr_branch_color()
 
     if [[ -n "$branch" ]] ; then
         if [[ "$clean" -eq 0 ]] ; then
-            ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$revno${NO_COL})"
+            ret="${LQ_COLOR_CHANGES}${branch}${LQ_RESET}(${LQ_COLOR_COMMITS}$revno${LQ_RESET})"
         else
-            ret="${LQ_COLOR_UP}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$revno${NO_COL})"
+            ret="${LQ_COLOR_UP}${branch}${LQ_RESET}(${LQ_COLOR_COMMITS}$revno${LQ_RESET})"
         fi
 
     fi

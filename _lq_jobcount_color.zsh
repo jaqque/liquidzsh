@@ -17,17 +17,17 @@ _lq_jobcount_color()
     local ret=""
 
     if [[ $detached != "0" ]] ; then
-        ret="${ret}${LQ_COLOR_JOB_D}${detached}${m_detached}${NO_COL}"
+        ret="${ret}${LQ_COLOR_JOB_D}${detached}${m_detached}${LQ_RESET}"
     fi
 
     if [[ $running != "0" ]] ; then
         if [[ $ret != "" ]] ; then ret="${ret}/"; fi
-        ret="${ret}${LQ_COLOR_JOB_R}${running}${m_run}${NO_COL}"
+        ret="${ret}${LQ_COLOR_JOB_R}${running}${m_run}${LQ_RESET}"
     fi
 
     if [[ $stopped != "0" ]] ; then
         if [[ $ret != "" ]] ; then ret="${ret}/"; fi
-        ret="${ret}${LQ_COLOR_JOB_Z}${stopped}${m_stop}${NO_COL}"
+        ret="${ret}${LQ_COLOR_JOB_Z}${stopped}${m_stop}${LQ_RESET}"
     fi
 
     echo -ne "$ret"

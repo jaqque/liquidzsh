@@ -21,22 +21,22 @@ _lq_battery_color()
     elif [[ $ret == 3 && $bat != 100 ]] ; then
         # charging and above threshold and not 100%
         # green ⏚
-        echo -ne "${LQ_COLOR_CHARGING_ABOVE}$chargingmark${NO_COL}"
+        echo -ne "${LQ_COLOR_CHARGING_ABOVE}$chargingmark${LQ_RESET}"
         return
     elif [[ $ret == 2 ]] ; then
         # charging but under threshold
         # yellow ⏚
-        echo -ne "${LQ_COLOR_CHARGING_UNDER}$chargingmark${NO_COL}"
+        echo -ne "${LQ_COLOR_CHARGING_UNDER}$chargingmark${LQ_RESET}"
         return
     elif [[ $ret == 1 ]] ; then
         # discharging but above threshold
         # yellow ⌁
-        echo -ne "${LQ_COLOR_DISCHARGING_ABOVE}$mark${NO_COL}"
+        echo -ne "${LQ_COLOR_DISCHARGING_ABOVE}$mark${LQ_RESET}"
         return
 
     # discharging and under threshold
     elif [[ "$bat" != "" ]] ; then
-        ret="${LQ_COLOR_DISCHARGING_UNDER}${mark}${NO_COL}"
+        ret="${LQ_COLOR_DISCHARGING_UNDER}${mark}${LQ_RESET}"
 
         if [[ "$LQ_PERCENTS_ALWAYS" -eq "1" ]]; then
             if   [[ ${bat} -le 100 ]] && [[ ${bat} -gt 80 ]] ; then # -20
@@ -64,7 +64,7 @@ _lq_battery_color()
 
             ret="${ret}${bat}%%"
         fi # LQ_PERCENTS_ALWAYS
-        echo -ne "${ret}${NO_COL}"
+        echo -ne "${ret}${LQ_RESET}"
     fi # ret
 }
 

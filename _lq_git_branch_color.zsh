@@ -20,7 +20,7 @@ _lq_git_branch_color()
         git diff --cached --quiet >/dev/null 2>&1
         GDC=$?
 
-        local end="$NO_COL"
+        local end="$LQ_RESET"
         if git status 2>/dev/null | grep -q '\(# Untracked\)'; then
             end="$LQ_COLOR_CHANGES$LQ_MARK_UNTRACKED$end"
         fi
@@ -49,14 +49,14 @@ _lq_git_branch_color()
             has_lines=$(git diff --numstat 2>/dev/null | awk 'NF==3 {plus+=$1; minus+=$2} END {printf("+%d/-%d\n", plus, minus)}')
             if [[ "$has_commit" -gt "0" ]] ; then
                 # Changes to commit and commits to push
-                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL},${LQ_COLOR_COMMITS}$has_commit${NO_COL})${end}"
+                ret="${LQ_COLOR_CHANGES}${branch}${LQ_RESET}(${LQ_COLOR_DIFF}$has_lines${LQ_RESET},${LQ_COLOR_COMMITS}$has_commit${LQ_RESET})${end}"
             else
-                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL})${end}" # changes to commit
+                ret="${LQ_COLOR_CHANGES}${branch}${LQ_RESET}(${LQ_COLOR_DIFF}$has_lines${LQ_RESET})${end}" # changes to commit
             fi
         else
             if [[ "$has_commit" -gt "0" ]] ; then
                 # some commit(s) to push
-                ret="${LQ_COLOR_COMMITS}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$has_commit${NO_COL})${end}"
+                ret="${LQ_COLOR_COMMITS}${branch}${LQ_RESET}(${LQ_COLOR_COMMITS}$has_commit${LQ_RESET})${end}"
             else
                 ret="${LQ_COLOR_UP}${branch}${end}" # nothing to commit or push
             fi

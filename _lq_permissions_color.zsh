@@ -7,9 +7,9 @@ _lq_permissions_color()
         echo : # without color
     else
         if [[ -w "${PWD}" ]]; then
-            echo "${LQ_COLOR_WRITE}:${NO_COL}"
+            echo "${LQ_COLOR_WRITE}:${LQ_RESET}"
         else
-            echo "${LQ_COLOR_NOWRITE}:${NO_COL}"
+            echo "${LQ_COLOR_NOWRITE}:${LQ_RESET}"
         fi
     fi
 }

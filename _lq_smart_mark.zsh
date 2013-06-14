@@ -11,11 +11,10 @@ _lq_smart_mark()
     local mark
     if [[ -n "$LQ_MARK_DEFAULT" ]]; then
         mark=$LQ_MARK_DEFAULT
-    elif $_LQ_SHELL_zsh; then
-        mark="%(!.#.%%)"
     else
-        mark="\\\$"
+        mark="%#"
     fi
+
     if [[ "$1" == "git" ]]; then
         mark=$LQ_MARK_GIT
     elif [[ "$1" == "git-svn" ]]; then
@@ -31,6 +30,6 @@ _lq_smart_mark()
     elif [[ "$1" == "disabled" ]]; then
         mark=$LQ_MARK_DISABLED
     fi
-    echo -ne "${COL}${mark}${NO_COL}"
+    echo -ne "${COL}${mark}${LQ_RESET}"
 }
 

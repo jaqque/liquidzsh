@@ -15,9 +15,9 @@ _lq_svn_branch_color()
         local commits
         changes=$(( $(svn status $LQ_SVN_STATUS_OPTIONS | grep -c -v "?") ))
         if [[ $changes -eq 0 ]] ; then
-            echo "${LQ_COLOR_UP}${branch}${NO_COL}"
+            echo "${LQ_COLOR_UP}${branch}${LQ_RESET}"
         else
-            echo "${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$changes${NO_COL})" # changes to commit
+            echo "${LQ_COLOR_CHANGES}${branch}${LQ_RESET}(${LQ_COLOR_DIFF}$changes${LQ_RESET})" # changes to commit
         fi
     fi
 }

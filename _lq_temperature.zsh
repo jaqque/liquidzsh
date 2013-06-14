@@ -5,7 +5,7 @@ _lq_temperature() {
 
     temperature=$($_lq_temp_function)
     if [[ $temperature -ge $LQ_TEMP_THRESHOLD ]]; then
-        echo -ne "${LQ_MARK_TEMP}$(_lq_color_map $temperature)$temperature°${NO_COL}"
+        echo -ne "${LQ_MARK_TEMP}$(_lq_color_map $temperature)$temperature°${LQ_RESET}"
     fi
 }
 
