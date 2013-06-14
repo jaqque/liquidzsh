@@ -56,21 +56,21 @@ if test -n "$BASH_VERSION" -a -n "$PS1" -a -n "$TERM" ; then
     fi
     unset bash bmajor bminor
 
-    _LP_SHELL_bash=true
-    _LP_SHELL_zsh=false
-    _LP_OPEN_ESC="\["
-    _LP_CLOSE_ESC="\]"
-    _LP_USER_SYMBOL="\u"
-    _LP_HOST_SYMBOL="\h"
-    _LP_TIME_SYMBOL="\t"
+    _LQ_SHELL_bash=true
+    _LQ_SHELL_zsh=false
+    _LQ_OPEN_ESC="\["
+    _LQ_CLOSE_ESC="\]"
+    _LQ_USER_SYMBOL="\u"
+    _LQ_HOST_SYMBOL="\h"
+    _LQ_TIME_SYMBOL="\t"
 elif test -n "$ZSH_VERSION" ; then
-    _LP_SHELL_bash=false
-    _LP_SHELL_zsh=true
-    _LP_OPEN_ESC="%{"
-    _LP_CLOSE_ESC="%}"
-    _LP_USER_SYMBOL="%n"
-    _LP_HOST_SYMBOL="%m"
-    _LP_TIME_SYMBOL="%*"
+    _LQ_SHELL_bash=false
+    _LQ_SHELL_zsh=true
+    _LQ_OPEN_ESC="%{"
+    _LQ_CLOSE_ESC="%}"
+    _LQ_USER_SYMBOL="%n"
+    _LQ_HOST_SYMBOL="%m"
+    _LQ_TIME_SYMBOL="%*"
 else
     echo "liquidprompt: shell not supported" >&2
     return
@@ -81,17 +81,17 @@ fi
 # OS specific #
 ###############
 
-# LP_OS detection, default to Linux
+# LQ_OS detection, default to Linux
 case $(uname) in
-    FreeBSD)   LP_OS=FreeBSD ;;
-    DragonFly) LP_OS=FreeBSD ;;
-    Darwin)    LP_OS=Darwin  ;;
-    SunOS)     LP_OS=SunOS   ;;
-    *)         LP_OS=Linux   ;;
+    FreeBSD)   LQ_OS=FreeBSD ;;
+    DragonFly) LQ_OS=FreeBSD ;;
+    Darwin)    LQ_OS=Darwin  ;;
+    SunOS)     LQ_OS=SunOS   ;;
+    *)         LQ_OS=Linux   ;;
 esac
 
 # Get cpu count
-case "$LP_OS" in
+case "$LQ_OS" in
     Linux)   _lq_CPUNUM=$( nproc 2>/dev/null || grep -c '^[Pp]rocessor' /proc/cpuinfo ) ;;
     FreeBSD|Darwin) _lq_CPUNUM=$( sysctl -n hw.ncpu ) ;;
     SunOS)   _lq_CPUNUM=$( kstat -m cpu_info | grep -c "module: cpu_info" ) ;;
@@ -99,7 +99,7 @@ esac
 
 
 # get current load
-case "$LP_OS" in
+case "$LQ_OS" in
     Linux)
         _lq_cpu_load () {
             local load eol
@@ -120,7 +120,7 @@ case "$LP_OS" in
             load=$(LANG=C sysctl -n vm.loadavg | awk '{print $2}')
             echo "$load"
         }
-        LP_DWIN_KERNEL_REL_VER=$(uname -r | cut -d . -f 1)
+        LQ_DWIN_KERNEL_REL_VER=$(uname -r | cut -d . -f 1)
         ;;
     SunOS)
         _lq_cpu_load () {
@@ -137,20 +137,20 @@ esac
 source _lq_source_config.zsh
 
 # Disable features if the tool is not installed
-[[ "$LP_ENABLE_GIT"  = 1 ]] && { command -v git  >/dev/null || LP_ENABLE_GIT=0  ; }
-[[ "$LP_ENABLE_SVN"  = 1 ]] && { command -v svn  >/dev/null || LP_ENABLE_SVN=0  ; }
-[[ "$LP_ENABLE_FOSSIL"  = 1 ]] && { command -v fossil  >/dev/null || LP_ENABLE_FOSSIL=0  ; }
-[[ "$LP_ENABLE_HG"   = 1 ]] && { command -v hg   >/dev/null || LP_ENABLE_HG=0   ; }
-[[ "$LP_ENABLE_BZR"  = 1 ]] && { command -v bzr > /dev/null || LP_ENABLE_BZR=0  ; }
-[[ "$LP_ENABLE_BATT" = 1 ]] && { command -v acpi >/dev/null || LP_ENABLE_BATT=0 ; }
+[[ "$LQ_ENABLE_GIT"  = 1 ]] && { command -v git  >/dev/null || LQ_ENABLE_GIT=0  ; }
+[[ "$LQ_ENABLE_SVN"  = 1 ]] && { command -v svn  >/dev/null || LQ_ENABLE_SVN=0  ; }
+[[ "$LQ_ENABLE_FOSSIL"  = 1 ]] && { command -v fossil  >/dev/null || LQ_ENABLE_FOSSIL=0  ; }
+[[ "$LQ_ENABLE_HG"   = 1 ]] && { command -v hg   >/dev/null || LQ_ENABLE_HG=0   ; }
+[[ "$LQ_ENABLE_BZR"  = 1 ]] && { command -v bzr > /dev/null || LQ_ENABLE_BZR=0  ; }
+[[ "$LQ_ENABLE_BATT" = 1 ]] && { command -v acpi >/dev/null || LQ_ENABLE_BATT=0 ; }
 
 # If we are running in a terminal multiplexer, brackets are colored
 if [[ "$TERM" == screen* ]]; then
-    LP_BRACKET_OPEN="${LP_COLOR_IN_MULTIPLEXER}${LP_MARK_BRACKET_OPEN}${NO_COL}"
-    LP_BRACKET_CLOSE="${LP_COLOR_IN_MULTIPLEXER}${LP_MARK_BRACKET_CLOSE}${NO_COL}"
+    LQ_BRACKET_OPEN="${LQ_COLOR_IN_MULTIPLEXER}${LQ_MARK_BRACKET_OPEN}${NO_COL}"
+    LQ_BRACKET_CLOSE="${LQ_COLOR_IN_MULTIPLEXER}${LQ_MARK_BRACKET_CLOSE}${NO_COL}"
 else
-    LP_BRACKET_OPEN="${LP_MARK_BRACKET_OPEN}"
-    LP_BRACKET_CLOSE="${LP_MARK_BRACKET_CLOSE}"
+    LQ_BRACKET_OPEN="${LQ_MARK_BRACKET_OPEN}"
+    LQ_BRACKET_CLOSE="${LQ_MARK_BRACKET_CLOSE}"
 fi
 
 
@@ -165,16 +165,16 @@ source _lq_escape.zsh
 if [[ "$EUID" -ne "0" ]] ; then  # if user is not root
     # if user is not login user
     if [[ ${USER} != "$(logname 2>/dev/null || echo $LOGNAME)" ]]; then
-        LP_USER="${LP_COLOR_USER_ALT}${_LP_USER_SYMBOL}${NO_COL}"
+        LQ_USER="${LQ_COLOR_USER_ALT}${_LQ_USER_SYMBOL}${NO_COL}"
     else
-        if [[ "${LP_USER_ALWAYS}" -ne "0" ]] ; then
-            LP_USER="${LP_COLOR_USER_LOGGED}${_LP_USER_SYMBOL}${NO_COL}"
+        if [[ "${LQ_USER_ALWAYS}" -ne "0" ]] ; then
+            LQ_USER="${LQ_COLOR_USER_LOGGED}${_LQ_USER_SYMBOL}${NO_COL}"
         else
-            LP_USER=""
+            LQ_USER=""
         fi
     fi
 else
-    LP_USER="${LP_COLOR_USER_ROOT}${_LP_USER_SYMBOL}${NO_COL}"
+    LQ_USER="${LQ_COLOR_USER_ROOT}${_LQ_USER_SYMBOL}${NO_COL}"
 fi
 
 
@@ -192,49 +192,49 @@ source _lq_connection.zsh
 # The connection is not expected to change from inside the shell, so we
 # build this just once
 
-# set LP_HOST to current chroot, if any
+# set LQ_HOST to current chroot, if any
 source _lq_chroot.zsh
 
 # If we are connected with a X11 support
 if [[ -n "$DISPLAY" ]] ; then
-    LP_HOST="${LP_COLOR_X11_ON}${LP_HOST}@${NO_COL}"
+    LQ_HOST="${LQ_COLOR_X11_ON}${LQ_HOST}@${NO_COL}"
 else
-    LP_HOST="${LP_COLOR_X11_OFF}${LP_HOST}@${NO_COL}"
+    LQ_HOST="${LQ_COLOR_X11_OFF}${LQ_HOST}@${NO_COL}"
 fi
 
 case "$(_lq_connection)" in
 lcl)
-    if [[ "${LP_HOSTNAME_ALWAYS}" -eq "0" ]] ; then
+    if [[ "${LQ_HOSTNAME_ALWAYS}" -eq "0" ]] ; then
         # FIXME do we want to display the chroot if local?
-        LP_HOST="" # no hostname if local
+        LQ_HOST="" # no hostname if local
     else
-        LP_HOST="${LP_HOST}${LP_COLOR_HOST}${_LP_HOST_SYMBOL}${NO_COL}"
+        LQ_HOST="${LQ_HOST}${LQ_COLOR_HOST}${_LQ_HOST_SYMBOL}${NO_COL}"
     fi
     ;;
 ssh)
     # If we want a different color for each host
-    if [[ "$LP_ENABLE_SSH_COLORS" -eq "1" ]]; then
+    if [[ "$LQ_ENABLE_SSH_COLORS" -eq "1" ]]; then
         # compute the hash of the hostname
         # and get the corresponding number in [1-6] (red,green,yellow,blue,purple or cyan)
         # FIXME check portability of cksum and add more formats (bold? 256 colors?)
         hash=$(( 1 + $(hostname | cksum | cut -d " " -f 1) % 6 ))
-        color=${_LP_OPEN_ESC}$(ti_setaf $hash)${_LP_CLOSE_ESC}
-        LP_HOST="${LP_HOST}${color}${_LP_HOST_SYMBOL}${NO_COL}"
+        color=${_LQ_OPEN_ESC}$(ti_setaf $hash)${_LQ_CLOSE_ESC}
+        LQ_HOST="${LQ_HOST}${color}${_LQ_HOST_SYMBOL}${NO_COL}"
         unset hash
         unset color
     else
         # the same color for all hosts
-        LP_HOST="${LP_HOST}${LP_COLOR_SSH}${_LP_HOST_SYMBOL}${NO_COL}"
+        LQ_HOST="${LQ_HOST}${LQ_COLOR_SSH}${_LQ_HOST_SYMBOL}${NO_COL}"
     fi
     ;;
 su)
-    LP_HOST="${LP_HOST}${LP_COLOR_SU}${_LP_HOST_SYMBOL}${NO_COL}"
+    LQ_HOST="${LQ_HOST}${LQ_COLOR_SU}${_LQ_HOST_SYMBOL}${NO_COL}"
     ;;
 tel)
-    LP_HOST="${LP_HOST}${LP_COLOR_TELNET}${_LP_HOST_SYMBOL}${NO_COL}"
+    LQ_HOST="${LQ_HOST}${LQ_COLOR_TELNET}${_LQ_HOST_SYMBOL}${NO_COL}"
     ;;
 *)
-    LP_HOST="${LP_HOST}${_LP_HOST_SYMBOL}" # defaults to no color
+    LQ_HOST="${LQ_HOST}${_LQ_HOST_SYMBOL}" # defaults to no color
     ;;
 esac
 
@@ -328,7 +328,7 @@ source _lq_svn_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is clean
-#   (use $LP_SVN_STATUS_OPTS to define what that means with
+#   (use $LQ_SVN_STATUS_OPTS to define what that means with
 #    the --depth option of 'svn status')
 # - red if there is changes to commit
 # Note that, due to subversion way of managing changes,
@@ -403,13 +403,13 @@ source _lq_temp_sensors.zsh
 
 # Will set _lq_temp_function so the temperature monitoring feature use an
 # available command. _lq_temp_function should return only a numeric value
-if [[ "$LP_ENABLE_TEMP" = 1 ]]; then
+if [[ "$LQ_ENABLE_TEMP" = 1 ]]; then
     if command -v sensors >/dev/null; then
         _lq_temp_function=_lq_temp_sensors
     # elif command -v the_command_you_want_to_use; then
     #   _lq_temp_function=your_function
     else
-        LP_ENABLE_TEMP=0
+        LQ_ENABLE_TEMP=0
     fi
 fi
 
@@ -466,6 +466,6 @@ source prompt_default.zsh
 prompt_on
 
 # Cleaning of variable that are not needed at runtime
-unset LP_OS
+unset LQ_OS
 
 # vim: set et sts=4 sw=4 tw=120 ft=sh:

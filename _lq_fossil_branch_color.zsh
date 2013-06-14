@@ -8,7 +8,7 @@
 # - when files are DELETED
 _lq_fossil_branch_color()
 {
-    [[ "$LP_ENABLE_FOSSIL" != 1 ]] && return
+    [[ "$LQ_ENABLE_FOSSIL" != 1 ]] && return
 
     local branch
     branch=$(_lq_fossil_branch)
@@ -37,26 +37,26 @@ _lq_fossil_branch_color()
         fi
 
         if [[ "$C2A" -gt 0 ]] ; then
-            C2A="$LP_MARK_UNTRACKED"
+            C2A="$LQ_MARK_UNTRACKED"
         else
             C2A=""
         fi
 
         if [[ "$ret" != "" ]] ; then
-            ret="(${LP_COLOR_DIFF}$ret${NO_COL})"
+            ret="(${LQ_COLOR_DIFF}$ret${NO_COL})"
         fi
 
 
         if [[ "$branch" = "no-tag" ]] ; then
             # Warning, your branch has no tag name !
-            branch="${LP_COLOR_COMMITS}$branch${NO_COL}$ret${LP_COLOR_COMMITS}$C2A${NO_COL}"
+            branch="${LQ_COLOR_COMMITS}$branch${NO_COL}$ret${LQ_COLOR_COMMITS}$C2A${NO_COL}"
         else
             if [[ "$C2E" -eq 0 && "$C2D" -eq 0 ]] ; then
                 # All is up-to-date
-                branch="${LP_COLOR_UP}$branch$C2A${NO_COL}"
+                branch="${LQ_COLOR_UP}$branch$C2A${NO_COL}"
             else
                 # There're some changes to commit
-                branch="${LP_COLOR_CHANGES}$branch${NO_COL}$ret${LP_COLOR_CHANGES}$C2A${NO_COL}"
+                branch="${LQ_COLOR_CHANGES}$branch${NO_COL}$ret${LQ_COLOR_CHANGES}$C2A${NO_COL}"
             fi
         fi
         echo -ne $branch # $(_lq_escape "$branch")

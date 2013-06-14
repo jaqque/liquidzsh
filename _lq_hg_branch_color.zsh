@@ -4,7 +4,7 @@
 # - TODO: yellow if there is some commits not pushed
 _lq_hg_branch_color()
 {
-    [[ "$LP_ENABLE_HG" != 1 ]] && return
+    [[ "$LQ_ENABLE_HG" != 1 ]] && return
 
     local branch
     local ret
@@ -16,7 +16,7 @@ _lq_hg_branch_color()
         if [[ -z "$has_untracked" ]] ; then
             has_untracked=""
         else
-            has_untracked="$LP_COLOR_CHANGES$LP_MARK_UNTRACKED"
+            has_untracked="$LQ_COLOR_CHANGES$LQ_MARK_UNTRACKED"
         fi
 
         local has_commit
@@ -28,18 +28,18 @@ _lq_hg_branch_color()
         if [[ $(( $(hg status --quiet -n | wc -l) )) = 0 ]] ; then
             if [[ "$has_commit" -gt "0" ]] ; then
                 # some commit(s) to push
-                ret="${LP_COLOR_COMMITS}${branch}${NO_COL}(${LP_COLOR_COMMITS}$has_commit${NO_COL})${has_untracked}${NO_COL}"
+                ret="${LQ_COLOR_COMMITS}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$has_commit${NO_COL})${has_untracked}${NO_COL}"
             else
-                ret="${LP_COLOR_UP}${branch}${has_untracked}${NO_COL}" # nothing to commit or push
+                ret="${LQ_COLOR_UP}${branch}${has_untracked}${NO_COL}" # nothing to commit or push
             fi
         else
             local has_line
             has_lines=$(hg diff --stat 2>/dev/null | tail -n 1 | awk 'FS=" " {printf("+%s/-%s\n", $4, $6)}')
             if [[ "$has_commit" -gt "0" ]] ; then
                 # Changes to commit and commits to push
-                ret="${LP_COLOR_CHANGES}${branch}${NO_COL}(${LP_COLOR_DIFF}$has_lines${NO_COL},${LP_COLOR_COMMITS}$has_commit${NO_COL})${has_untracked}${NO_COL}"
+                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL},${LQ_COLOR_COMMITS}$has_commit${NO_COL})${has_untracked}${NO_COL}"
             else
-                ret="${LP_COLOR_CHANGES}${branch}${NO_COL}(${LP_COLOR_DIFF}$has_lines${NO_COL})${has_untracked}${NO_COL}" # changes to commit
+                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL})${has_untracked}${NO_COL}" # changes to commit
             fi
         fi
         echo -ne "$ret"

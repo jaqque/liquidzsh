@@ -6,10 +6,10 @@
 # a    red ⌁ if the battery is discharging and above threshold
 _lq_battery_color()
 {
-    [[ "$LP_ENABLE_BATT" != 1 ]] && return
+    [[ "$LQ_ENABLE_BATT" != 1 ]] && return
 
-    local mark=$LP_MARK_BATTERY
-    local chargingmark=$LP_MARK_ADAPTER
+    local mark=$LQ_MARK_BATTERY
+    local chargingmark=$LQ_MARK_ADAPTER
     local bat
     local ret
     bat=$(_lq_battery)
@@ -21,53 +21,53 @@ _lq_battery_color()
     elif [[ $ret == 3 && $bat != 100 ]] ; then
         # charging and above threshold and not 100%
         # green ⏚
-        echo -ne "${LP_COLOR_CHARGING_ABOVE}$chargingmark${NO_COL}"
+        echo -ne "${LQ_COLOR_CHARGING_ABOVE}$chargingmark${NO_COL}"
         return
     elif [[ $ret == 2 ]] ; then
         # charging but under threshold
         # yellow ⏚
-        echo -ne "${LP_COLOR_CHARGING_UNDER}$chargingmark${NO_COL}"
+        echo -ne "${LQ_COLOR_CHARGING_UNDER}$chargingmark${NO_COL}"
         return
     elif [[ $ret == 1 ]] ; then
         # discharging but above threshold
         # yellow ⌁
-        echo -ne "${LP_COLOR_DISCHARGING_ABOVE}$mark${NO_COL}"
+        echo -ne "${LQ_COLOR_DISCHARGING_ABOVE}$mark${NO_COL}"
         return
 
     # discharging and under threshold
     elif [[ "$bat" != "" ]] ; then
-        ret="${LP_COLOR_DISCHARGING_UNDER}${mark}${NO_COL}"
+        ret="${LQ_COLOR_DISCHARGING_UNDER}${mark}${NO_COL}"
 
-        if [[ "$LP_PERCENTS_ALWAYS" -eq "1" ]]; then
+        if [[ "$LQ_PERCENTS_ALWAYS" -eq "1" ]]; then
             if   [[ ${bat} -le 100 ]] && [[ ${bat} -gt 80 ]] ; then # -20
-                ret="${ret}${LP_COLORMAP_1}"
+                ret="${ret}${LQ_COLORMAP_1}"
             elif [[ ${bat} -le 80  ]] && [[ ${bat} -gt 65 ]] ; then # -15
-                ret="${ret}${LP_COLORMAP_2}"
+                ret="${ret}${LQ_COLORMAP_2}"
             elif [[ ${bat} -le 65  ]] && [[ ${bat} -gt 50 ]] ; then # -15
-                ret="${ret}${LP_COLORMAP_3}"
+                ret="${ret}${LQ_COLORMAP_3}"
             elif [[ ${bat} -le 50  ]] && [[ ${bat} -gt 40 ]] ; then # -10
-                ret="${ret}${LP_COLORMAP_4}"
+                ret="${ret}${LQ_COLORMAP_4}"
             elif [[ ${bat} -le 40  ]] && [[ ${bat} -gt 30 ]] ; then # …
-                ret="${ret}${LP_COLORMAP_5}"
+                ret="${ret}${LQ_COLORMAP_5}"
             elif [[ ${bat} -le 30  ]] && [[ ${bat} -gt 20 ]] ; then
-                ret="${ret}${LP_COLORMAP_6}"
+                ret="${ret}${LQ_COLORMAP_6}"
             elif [[ ${bat} -le 20  ]] && [[ ${bat} -gt 10 ]] ; then
-                ret="${ret}${LP_COLORMAP_7}"
+                ret="${ret}${LQ_COLORMAP_7}"
             elif [[ ${bat} -le 10  ]] && [[ ${bat} -gt 5  ]] ; then
-                ret="${ret}${LP_COLORMAP_8}"
+                ret="${ret}${LQ_COLORMAP_8}"
             elif [[ ${bat} -le 5   ]] && [[ ${bat} -gt 0  ]] ; then
-                ret="${ret}${LP_COLORMAP_9}"
+                ret="${ret}${LQ_COLORMAP_9}"
             else
                 # for debugging purpose
-                ret="${ret}${LP_COLORMAP_0}"
+                ret="${ret}${LQ_COLORMAP_0}"
             fi
 
-            if $_LP_SHELL_bash; then
+            if $_LQ_SHELL_bash; then
                 ret="${ret}${bat}%"
             else # zsh
                 ret="${ret}${bat}%%"
             fi
-        fi # LP_PERCENTS_ALWAYS
+        fi # LQ_PERCENTS_ALWAYS
         echo -ne "${ret}${NO_COL}"
     fi # ret
 }

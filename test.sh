@@ -155,14 +155,14 @@ _lq_cpu_load()
 # ADHOC CONFIG #
 ################
 
-export LP_BATTERY_THRESHOLD=60
-export LP_LOAD_THRESHOLD=1
-export LP_MARK_PROXY="proxy"
-export LP_MARK_BATTERY="BATT"
-export LP_MARK_LOAD="LOAD"
-export LP_MARK_UNTRACKED="untracked"
-export LP_MARK_GIT="gitmark"
-export LP_USER_ALWAYS=1
+export LQ_BATTERY_THRESHOLD=60
+export LQ_LOAD_THRESHOLD=1
+export LQ_MARK_PROXY="proxy"
+export LQ_MARK_BATTERY="BATT"
+export LQ_MARK_LOAD="LOAD"
+export LQ_MARK_UNTRACKED="untracked"
+export LQ_MARK_GIT="gitmark"
+export LQ_USER_ALWAYS=1
 
 
 # Force erroneous command
@@ -184,7 +184,7 @@ assert_has Battery_Level    55%    $LINENO
 assert_has Load_Mark        LOAD    $LINENO
 assert_has Load_Level       32%    $LINENO
 assert_has User             "[\\\u"    $LINENO
-if [[ $LP_HOSTNAME_ALWAYS == 0 ]] ; then
+if [[ $LQ_HOSTNAME_ALWAYS == 0 ]] ; then
     assert_not Hostname     "\\\h"    $LINENO
 else
     assert_has Hostname     "\\\h"    $LINENO
@@ -201,7 +201,7 @@ assert_has GIT_Mark         gitmark    $LINENO
 
 # start hiding features
 echo "DISABLE BATTERY"
-export LP_ENABLE_BATT=0
+export LQ_ENABLE_BATT=0
 _lq_set_prompt
 log_prompt
 assert_not Battery_Mark     BATT    $LINENO
@@ -209,8 +209,8 @@ assert_not Battery_level    55%    $LINENO
 assert_not Error            127    $LINENO
 
 echo "HIDE BATTERY LEVEL"
-export LP_ENABLE_BATT=1
-export LP_BATTERY_THRESHOLD=50
+export LQ_ENABLE_BATT=1
+export LQ_BATTERY_THRESHOLD=50
 _lq_set_prompt
 log_prompt
 assert_has Battery_Mark     BATT    $LINENO
@@ -223,35 +223,35 @@ log_prompt
 assert_not Battery_Mark     BATT    $LINENO
 
 echo "DISABLE LOAD"
-export LP_ENABLE_LOAD=0
+export LQ_ENABLE_LOAD=0
 _lq_set_prompt
 log_prompt
 assert_not Load_Mark        LOAD    $LINENO
 assert_not Load_Level       32%    $LINENO
 
 echo "HIDE LOAD"
-export LP_ENABLE_LOAD=1
-export LP_LOAD_THRESHOLD=40
+export LQ_ENABLE_LOAD=1
+export LQ_LOAD_THRESHOLD=40
 _lq_set_prompt
 log_prompt
 assert_not Load_Mark        LOAD    $LINENO
 assert_not Load_Level       32%    $LINENO
 
 echo "DISABLE PROXY"
-export LP_ENABLE_PROXY=0
+export LQ_ENABLE_PROXY=0
 _lq_set_prompt
 log_prompt
 assert_not Proxy_Mark        proxy    $LINENO
 
 echo "NO PROXY"
-export LP_ENABLE_PROXY=1
+export LQ_ENABLE_PROXY=1
 export http_proxy=""
 _lq_set_prompt
 log_prompt
 assert_not Proxy_Mark        proxy    $LINENO
 
 echo "DISABLE GIT"
-export LP_ENABLE_GIT=0
+export LQ_ENABLE_GIT=0
 _lq_set_prompt
 log_prompt
 assert_not GIT_Branch       fake_test    $LINENO
@@ -262,7 +262,7 @@ assert_not GIT_Mark         gitmark    $LINENO
 assert_has User_Mark        $    $LINENO
 
 echo "NO GIT"
-export LP_ENABLE_GIT=1
+export LQ_ENABLE_GIT=1
 alias git="echo"
 _lq_set_prompt
 log_prompt
@@ -285,15 +285,15 @@ for d in $(seq 20) ; do
 done
 
 echo "DISABLE SHORTEN PATH"
-export LP_ENABLE_SHORTEN_PATH=0
+export LQ_ENABLE_SHORTEN_PATH=0
 _lq_set_prompt
 log_prompt
 assert_has Path       "$(pwd | sed -e "s|$HOME|~|")"    $LINENO
 
 echo "ENABLE SHORTEN PATH"
-export LP_ENABLE_SHORTEN_PATH=1
-export LP_PATH_LENGTH=35
-export LP_PATH_KEEP=1
+export LQ_ENABLE_SHORTEN_PATH=1
+export LQ_PATH_LENGTH=35
+export LQ_PATH_KEEP=1
 _lq_set_prompt
 log_prompt
 assert_has Short_Path       " … "    $LINENO
@@ -308,7 +308,7 @@ log_prompt
 # and not re-interpret at each prompt,
 # we cannot export the option in the test script.
 # We thus rely on the existing config.
-if [[ $LP_HOSTNAME_ALWAYS == 0 ]] ; then
+if [[ $LQ_HOSTNAME_ALWAYS == 0 ]] ; then
     assert_not Hostname     "\\\h"    $LINENO
 else
     assert_has Hostname     "\\\h"    $LINENO
@@ -321,7 +321,7 @@ assert_is Prompt            "$ "    $LINENO
 
 echo "prompt_on"
 prompt_on
-export LP_USER_ALWAYS=1
+export LQ_USER_ALWAYS=1
 log_prompt
 assert_has User             "\\\u"    $LINENO
 assert_has Perms            :    $LINENO

@@ -2,7 +2,7 @@
 # For the first level of the repository, gives the repository name
 _lq_svn_branch()
 {
-    [[ "$LP_ENABLE_SVN" != 1 ]] && return
+    [[ "$LQ_ENABLE_SVN" != 1 ]] && return
     local root
     local url
     local result

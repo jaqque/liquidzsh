@@ -12,8 +12,8 @@
 # + keep some left part of the path if asked
 _lq_shorten_path()
 {
-    if [[ "$LP_ENABLE_SHORTEN_PATH" != 1 || -n "$PROMPT_DIRTRIM" ]] ; then
-        if $_LP_SHELL_bash; then
+    if [[ "$LQ_ENABLE_SHORTEN_PATH" != 1 || -n "$PROMPT_DIRTRIM" ]] ; then
+        if $_LQ_SHELL_bash; then
             echo "\\w"
         else
             print -P '%~'
@@ -23,17 +23,17 @@ _lq_shorten_path()
 
     local p="${PWD/#$HOME/~}"
     local -i len=${#p}
-    local -i max_len=$((${COLUMNS:-80}*$LP_PATH_LENGTH/100))
+    local -i max_len=$((${COLUMNS:-80}*$LQ_PATH_LENGTH/100))
 
-    if $_LP_SHELL_bash; then
+    if $_LQ_SHELL_bash; then
         if (( len > max_len ))
         then
             # index of the directory to keep from the root
             # (starts at 0 whith bash, 1 with zsh)
-            local -i keep=LP_PATH_KEEP-1
+            local -i keep=LQ_PATH_KEEP-1
             # the character that will replace the part of the path that is
             # masked
-            local mask="$LP_MARK_SHORTEN_PATH"
+            local mask="$LQ_MARK_SHORTEN_PATH"
             local -i mask_len=${#mask}
             # finds all the '/' in
             # the path and stores their
@@ -95,7 +95,7 @@ _lq_shorten_path()
         fi
     else # zsh
         if (( len > max_len )); then
-            print -P "%-${LP_PATH_KEEP}~%${max_len}<${LP_MARK_SHORTEN_PATH}<%~%<<"
+            print -P "%-${LQ_PATH_KEEP}~%${max_len}<${LQ_MARK_SHORTEN_PATH}<%~%<<"
         else
             print -P '%~'
         fi

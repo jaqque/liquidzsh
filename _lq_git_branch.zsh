@@ -1,7 +1,7 @@
 # Get the branch name of the current directory
 _lq_git_branch()
 {
-    [[ "$LP_ENABLE_GIT" != 1 ]] && return
+    [[ "$LQ_ENABLE_GIT" != 1 ]] && return
     local gitdir
     gitdir="$([ $(git ls-files . 2>/dev/null | wc -l) -gt 0 ] && git rev-parse --git-dir 2>/dev/null)"
     [[ $? -ne 0 || ! $gitdir =~ (.*\/)?\.git.* ]] && return

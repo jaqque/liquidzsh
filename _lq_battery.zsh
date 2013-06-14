@@ -6,7 +6,7 @@
 # returns 4 if no battery support
 _lq_battery()
 {
-    [[ "$LP_ENABLE_BATT" != 1 ]] && return
+    [[ "$LQ_ENABLE_BATT" != 1 ]] && return
     local acpi
     acpi="$(acpi --battery 2>/dev/null)"
     # Extract the battery load value in percent
@@ -20,7 +20,7 @@ _lq_battery()
 
     # discharging
     elif [[ "$acpi" == *"Discharging"* ]] ; then
-        if [[ ${bat} -le $LP_BATTERY_THRESHOLD ]] ; then
+        if [[ ${bat} -le $LQ_BATTERY_THRESHOLD ]] ; then
             # under threshold
             echo -n "${bat}"
             return 0
@@ -32,7 +32,7 @@ _lq_battery()
 
     # charging
     else
-        if [[ ${bat} -le $LP_BATTERY_THRESHOLD ]] ; then
+        if [[ ${bat} -le $LQ_BATTERY_THRESHOLD ]] ; then
             # under threshold
             echo -n "${bat}"
             return 2

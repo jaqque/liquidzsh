@@ -1,6 +1,6 @@
 _lq_title()
 {
-    [[ "$LP_ENABLE_TITLE" != "1" ]] && return
+    [[ "$LQ_ENABLE_TITLE" != "1" ]] && return
 
     # Get the current computed prompt as pure text
     local txt=$(_lq_as_text "$1")
@@ -10,14 +10,14 @@ _lq_title()
     # Otherwise line editing commands will mess the cursor positionning
     case "$TERM" in
       screen*)
-        [[ "$LP_ENABLE_SCREEN_TITLE" != "1" ]] && return
-        local title="${LP_SCREEN_TITLE_OPEN}${txt}${LP_SCREEN_TITLE_CLOSE}"
+        [[ "$LQ_ENABLE_SCREEN_TITLE" != "1" ]] && return
+        local title="${LQ_SCREEN_TITLE_OPEN}${txt}${LQ_SCREEN_TITLE_CLOSE}"
       ;;
       linux*)
         local title=""
       ;;
       *)
-        local title="${_LP_OPEN_ESC}${LP_TITLE_OPEN}${txt}${LP_TITLE_CLOSE}${_LP_CLOSE_ESC}"
+        local title="${_LQ_OPEN_ESC}${LQ_TITLE_OPEN}${txt}${LQ_TITLE_CLOSE}${_LQ_CLOSE_ESC}"
       ;;
     esac
     echo -n "${title}"

@@ -8,18 +8,18 @@ _lq_load_color()
     # Then we have to choose the values at which the colours switch, with
     # anything past yellow being pretty important.
 
-    [[ "$LP_ENABLE_LOAD" != 1 ]] && return
+    [[ "$LQ_ENABLE_LOAD" != 1 ]] && return
 
     local load
     load="$(_lq_cpu_load | sed 's/\.//g;s/^0*//g' )"
     let "load=${load:-0}/$_lq_CPUNUM"
 
-    if [[ $load -ge $LP_LOAD_THRESHOLD ]]
+    if [[ $load -ge $LQ_LOAD_THRESHOLD ]]
     then
-        local ret="$(_lq_color_map $load) ${LP_MARK_LOAD}"
+        local ret="$(_lq_color_map $load) ${LQ_MARK_LOAD}"
 
-        if [[ "$LP_PERCENTS_ALWAYS" -eq "1" ]]; then
-            if $_LP_SHELL_bash; then
+        if [[ "$LQ_PERCENTS_ALWAYS" -eq "1" ]]; then
+            if $_LQ_SHELL_bash; then
                 ret="${ret}$load%"
             else # zsh
                 ret="${ret}$load%%"

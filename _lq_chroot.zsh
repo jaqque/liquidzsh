@@ -3,7 +3,7 @@
 # else diplay the host without color
 # The connection is not expected to change from inside the shell, so we
 # build this just once
-LP_HOST=""
+LQ_HOST=""
 _lq_chroot()
 {
     if [[ -r /etc/debian_chroot ]] ; then
@@ -12,6 +12,6 @@ _lq_chroot()
         echo "(${debchroot})"
     fi
 }
-LP_HOST="$(_lq_chroot)"
+LQ_HOST="$(_lq_chroot)"
 unset _lq_chroot
 

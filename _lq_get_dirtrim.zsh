@@ -3,11 +3,11 @@
 # liquidprompt can calculate this number under two condition, path shortening
 # must be activated and PROMPT_DIRTRIM must be already set.
 _lq_get_dirtrim() {
-    [[ "$LP_ENABLE_SHORTEN_PATH" != 1 ]] && echo 0 && return
+    [[ "$LQ_ENABLE_SHORTEN_PATH" != 1 ]] && echo 0 && return
 
     local p="${PWD/$HOME/~}"
     local len=${#p}
-    local max_len=$((${COLUMNS:-80}*$LP_PATH_LENGTH/100))
+    local max_len=$((${COLUMNS:-80}*$LQ_PATH_LENGTH/100))
     local PROMPT_DIRTRIM=0
 
     if [[ "$((len))" -gt "$((max_len))" ]]; then

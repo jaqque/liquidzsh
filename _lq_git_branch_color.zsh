@@ -6,7 +6,7 @@
 # Add the number of pending commits and the impacted lines.
 _lq_git_branch_color()
 {
-    [[ "$LP_ENABLE_GIT" != 1 ]] && return
+    [[ "$LQ_ENABLE_GIT" != 1 ]] && return
 
     local branch
     branch=$(_lq_git_branch)
@@ -22,11 +22,11 @@ _lq_git_branch_color()
 
         local end="$NO_COL"
         if git status 2>/dev/null | grep -q '\(# Untracked\)'; then
-            end="$LP_COLOR_CHANGES$LP_MARK_UNTRACKED$end"
+            end="$LQ_COLOR_CHANGES$LQ_MARK_UNTRACKED$end"
         fi
 
         if [[ -n "$(git stash list 2>/dev/null)" ]]; then
-            end="$LP_COLOR_COMMITS$LP_MARK_STASH$end"
+            end="$LQ_COLOR_COMMITS$LQ_MARK_STASH$end"
         fi
 
         local remote
@@ -49,16 +49,16 @@ _lq_git_branch_color()
             has_lines=$(git diff --numstat 2>/dev/null | awk 'NF==3 {plus+=$1; minus+=$2} END {printf("+%d/-%d\n", plus, minus)}')
             if [[ "$has_commit" -gt "0" ]] ; then
                 # Changes to commit and commits to push
-                ret="${LP_COLOR_CHANGES}${branch}${NO_COL}(${LP_COLOR_DIFF}$has_lines${NO_COL},${LP_COLOR_COMMITS}$has_commit${NO_COL})${end}"
+                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL},${LQ_COLOR_COMMITS}$has_commit${NO_COL})${end}"
             else
-                ret="${LP_COLOR_CHANGES}${branch}${NO_COL}(${LP_COLOR_DIFF}$has_lines${NO_COL})${end}" # changes to commit
+                ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_DIFF}$has_lines${NO_COL})${end}" # changes to commit
             fi
         else
             if [[ "$has_commit" -gt "0" ]] ; then
                 # some commit(s) to push
-                ret="${LP_COLOR_COMMITS}${branch}${NO_COL}(${LP_COLOR_COMMITS}$has_commit${NO_COL})${end}"
+                ret="${LQ_COLOR_COMMITS}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$has_commit${NO_COL})${end}"
             else
-                ret="${LP_COLOR_UP}${branch}${end}" # nothing to commit or push
+                ret="${LQ_COLOR_UP}${branch}${end}" # nothing to commit or push
             fi
         fi
         echo -ne "$ret"

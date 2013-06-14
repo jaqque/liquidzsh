@@ -6,7 +6,7 @@
 # Add the number of pending commits and the impacted lines.
 _lq_bzr_branch_color()
 {
-    [[ "$LP_ENABLE_BZR" != 1 ]] && return
+    [[ "$LQ_ENABLE_BZR" != 1 ]] && return
     local output
     output=$(bzr version-info --check-clean --custom --template='{branch_nick} {revno} {clean}' 2> /dev/null)
     [[ $? -ne 0 ]] && return
@@ -17,9 +17,9 @@ _lq_bzr_branch_color()
 
     if [[ -n "$branch" ]] ; then
         if [[ "$clean" -eq 0 ]] ; then
-            ret="${LP_COLOR_CHANGES}${branch}${NO_COL}(${LP_COLOR_COMMITS}$revno${NO_COL})"
+            ret="${LQ_COLOR_CHANGES}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$revno${NO_COL})"
         else
-            ret="${LP_COLOR_UP}${branch}${NO_COL}(${LP_COLOR_COMMITS}$revno${NO_COL})"
+            ret="${LQ_COLOR_UP}${branch}${NO_COL}(${LQ_COLOR_COMMITS}$revno${NO_COL})"
         fi
 
     fi
