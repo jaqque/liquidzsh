@@ -1,5 +1,5 @@
 # Display the return value of the last command, if different from zero
-_lp_return_value()
+_lq_return_value()
 {
     if [[ "$1" -ne "0" ]]
     then

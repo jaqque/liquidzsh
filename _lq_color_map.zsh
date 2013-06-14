@@ -1,4 +1,4 @@
-_lp_color_map() {
+_lq_color_map() {
     if   [[ $1 -ge 0   ]] && [[ $1 -lt 20  ]] ; then
         echo -ne "${LP_COLORMAP_0}"
     elif [[ $1 -ge 20  ]] && [[ $1 -lt 40  ]] ; then

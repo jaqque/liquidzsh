@@ -4,12 +4,12 @@
 # - red if there is changes to commit
 #
 # Add the number of pending commits and the impacted lines.
-_lp_git_branch_color()
+_lq_git_branch_color()
 {
     [[ "$LP_ENABLE_GIT" != 1 ]] && return
 
     local branch
-    branch=$(_lp_git_branch)
+    branch=$(_lq_git_branch)
     if [[ -n "$branch" ]] ; then
 
         local GD

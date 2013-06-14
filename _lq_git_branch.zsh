@@ -1,5 +1,5 @@
 # Get the branch name of the current directory
-_lp_git_branch()
+_lq_git_branch()
 {
     [[ "$LP_ENABLE_GIT" != 1 ]] && return
     local gitdir
@@ -12,6 +12,6 @@ _lp_git_branch()
     fi
     [[ $? -ne 0 || -z "$branch" ]] && return
     branch="${branch#refs/heads/}"
-    echo $(_lp_escape "$branch")
+    echo $(_lq_escape "$branch")
 }
 

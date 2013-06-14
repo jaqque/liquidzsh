@@ -1,6 +1,6 @@
 # Set the prompt mark to ± if git, to ☿ if mercurial, to ‡ if subversion
 # to # if root and else $
-_lp_smart_mark()
+_lq_smart_mark()
 {
     local COL
     COL=${LP_COLOR_MARK}

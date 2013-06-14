@@ -5,12 +5,12 @@
 # - red if there is changes to commit
 # Note that, due to subversion way of managing changes,
 # informations are only displayed for the CURRENT directory.
-_lp_svn_branch_color()
+_lq_svn_branch_color()
 {
     [[ "$LP_ENABLE_SVN" != 1 ]] && return
 
     local branch
-    branch="$(_lp_svn_branch)"
+    branch="$(_lq_svn_branch)"
     if [[ -n "$branch" ]] ; then
         local commits
         changes=$(( $(svn status $LP_SVN_STATUS_OPTIONS | grep -c -v "?") ))

@@ -1,6 +1,6 @@
 # Get the branch name of the current directory
 # For the first level of the repository, gives the repository name
-_lp_svn_branch()
+_lq_svn_branch()
 {
     [[ "$LP_ENABLE_SVN" != 1 ]] && return
     local root
@@ -16,7 +16,7 @@ _lp_svn_branch()
         echo -n trunk
     else
         result=$(expr "$url" : '.*/branches/\([^/]*\)' || expr "$url" : '/\([^/]*\)' || basename "$root")
-        echo -n $result # FIXME should be: echo -n $(_lp_escape "${result}")
+        echo -n $result # FIXME should be: echo -n $(_lq_escape "${result}")
     fi
 }
 

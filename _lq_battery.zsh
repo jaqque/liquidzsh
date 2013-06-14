@@ -4,7 +4,7 @@
 # returns 2 (and battery level) if battery is charging but under threshold
 # returns 3 (and battery level) if battery is charging and above threshold
 # returns 4 if no battery support
-_lp_battery()
+_lq_battery()
 {
     [[ "$LP_ENABLE_BATT" != 1 ]] && return
     local acpi

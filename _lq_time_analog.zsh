@@ -1,7 +1,7 @@
 ###################
 # CURRENT TIME    #
 ###################
-_lp_time_analog()
+_lq_time_analog()
 {
     # get the date as "hours(12) minutes" in a single call
     # make a bash array with it

@@ -4,7 +4,7 @@
 # a yellow ⏚ if the battery is charging    and under threshold
 # a yellow ⌁ if the battery is discharging but above threshold
 # a    red ⌁ if the battery is discharging and above threshold
-_lp_battery_color()
+_lq_battery_color()
 {
     [[ "$LP_ENABLE_BATT" != 1 ]] && return
 
@@ -12,7 +12,7 @@ _lp_battery_color()
     local chargingmark=$LP_MARK_ADAPTER
     local bat
     local ret
-    bat=$(_lp_battery)
+    bat=$(_lq_battery)
     ret=$?
 
     if [[ $ret == 4 || $bat == 100 ]] ; then

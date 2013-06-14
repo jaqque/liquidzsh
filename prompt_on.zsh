@@ -11,10 +11,10 @@ prompt_on()
         fi
     fi
     if $_LP_SHELL_bash; then
-        PROMPT_COMMAND=_lp_set_prompt
+        PROMPT_COMMAND=_lq_set_prompt
     else # zsh
         function precmd {
-            _lp_set_prompt
+            _lq_set_prompt
         }
     fi
 

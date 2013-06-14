@@ -2,7 +2,7 @@
 # - detached screens sessions and/or tmux sessions running on the host
 # - attached running jobs (started with $ myjob &)
 # - attached stopped jobs (suspended with Ctrl-Z)
-_lp_jobcount_color()
+_lq_jobcount_color()
 {
     [[ "$LP_ENABLE_JOBS" != 1 ]] && return
 

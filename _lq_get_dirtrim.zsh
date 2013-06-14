@@ -2,7 +2,7 @@
 # of the displayed path (if "\w" is present in the PS1 var).
 # liquidprompt can calculate this number under two condition, path shortening
 # must be activated and PROMPT_DIRTRIM must be already set.
-_lp_get_dirtrim() {
+_lq_get_dirtrim() {
     [[ "$LP_ENABLE_SHORTEN_PATH" != 1 ]] && echo 0 && return
 
     local p="${PWD/$HOME/~}"

@@ -1,4 +1,4 @@
-_lp_connection()
+_lq_connection()
 {
     if [[ -n "$SSH_CLIENT$SSH2_CLIENT$SSH_TTY" ]] ; then
         echo ssh

@@ -7,7 +7,7 @@
 #    In practice, this is only color variables.
 # 2. Setup default values
 # 3. Load the configuration
-_lp_source_config()
+_lq_source_config()
 {
 
     # TermInfo feature detection
@@ -182,6 +182,6 @@ _lp_source_config()
     fi
 }
 # do source config files
-_lp_source_config
-unset _lp_source_config
+_lq_source_config
+unset _lq_source_config
 

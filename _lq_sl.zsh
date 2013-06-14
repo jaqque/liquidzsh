@@ -1,5 +1,5 @@
 # insert a space on the left
-_lp_sl()
+_lq_sl()
 {
     [[ -n "$1" ]] && echo -n " $1"
 }

@@ -1,9 +1,9 @@
-_lp_title()
+_lq_title()
 {
     [[ "$LP_ENABLE_TITLE" != "1" ]] && return
 
     # Get the current computed prompt as pure text
-    local txt=$(_lp_as_text "$1")
+    local txt=$(_lq_as_text "$1")
 
     # Use it in the window's title
     # Escapes whill tells bash to ignore the non-printing control characters when calculating the width of the prompt.

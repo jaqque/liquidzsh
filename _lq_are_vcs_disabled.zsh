@@ -1,4 +1,4 @@
-_lp_are_vcs_disabled()
+_lq_are_vcs_disabled()
 {
     [[ -z "$LP_DISABLED_VCS_PATH" ]] && echo 0 && return
     local path

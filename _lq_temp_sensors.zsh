@@ -1,4 +1,4 @@
-_lp_temp_sensors() {
+_lq_temp_sensors() {
     # Return the average system temperature we get through the sensors command
     local count=0
     local temperature=0

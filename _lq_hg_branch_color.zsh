@@ -2,13 +2,13 @@
 # - green if the repository is up to date
 # - red if there is changes to commit
 # - TODO: yellow if there is some commits not pushed
-_lp_hg_branch_color()
+_lq_hg_branch_color()
 {
     [[ "$LP_ENABLE_HG" != 1 ]] && return
 
     local branch
     local ret
-    branch=$(_lp_hg_branch)
+    branch=$(_lq_hg_branch)
     if [[ -n "$branch" ]] ; then
 
         local has_untracked

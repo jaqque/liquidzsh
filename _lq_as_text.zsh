@@ -1,5 +1,5 @@
 # Remove all colors and escape characters of the given string and return a pure text
-_lp_as_text()
+_lq_as_text()
 {
     # Remove colors from the computed prompt
     case "$LP_OS" in

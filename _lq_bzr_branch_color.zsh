@@ -4,7 +4,7 @@
 # - TODO: yellow if there is some commits not pushed
 #
 # Add the number of pending commits and the impacted lines.
-_lp_bzr_branch_color()
+_lq_bzr_branch_color()
 {
     [[ "$LP_ENABLE_BZR" != 1 ]] && return
     local output

@@ -1,5 +1,5 @@
 # Compute a gradient of background/forground colors depending on the battery status
-_lp_load_color()
+_lq_load_color()
 {
     # Colour progression is important ...
     #   bold gray -> bold green -> bold yellow -> bold red ->
@@ -11,12 +11,12 @@ _lp_load_color()
     [[ "$LP_ENABLE_LOAD" != 1 ]] && return
 
     local load
-    load="$(_lp_cpu_load | sed 's/\.//g;s/^0*//g' )"
-    let "load=${load:-0}/$_lp_CPUNUM"
+    load="$(_lq_cpu_load | sed 's/\.//g;s/^0*//g' )"
+    let "load=${load:-0}/$_lq_CPUNUM"
 
     if [[ $load -ge $LP_LOAD_THRESHOLD ]]
     then
-        local ret="$(_lp_color_map $load) ${LP_MARK_LOAD}"
+        local ret="$(_lq_color_map $load) ${LP_MARK_LOAD}"
 
         if [[ "$LP_PERCENTS_ALWAYS" -eq "1" ]]; then
             if $_LP_SHELL_bash; then

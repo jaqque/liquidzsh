@@ -1,7 +1,7 @@
-_lp_set_prompt()
+_lq_set_prompt()
 {
     # as this get the last returned code, it should be called first
-    LP_ERR="$(_lp_sl $(_lp_return_value $?))"
+    LP_ERR="$(_lq_sl $(_lq_return_value $?))"
 
     # Reset IFS to its default value to avoid strange behaviors
     # (in case the user is playing with the value at the prompt)
@@ -19,28 +19,28 @@ _lp_set_prompt()
     esac
 
     # left of main prompt: space at right
-    LP_JOBS=$(_lp_sr "$(_lp_jobcount_color)")
-    LP_TEMP=$(_lp_sr "$(_lp_temperature)")
-    LP_LOAD=$(_lp_sr "$(_lp_load_color)")
-    LP_BATT=$(_lp_sr "$(_lp_battery_color)")
-    LP_TIME=$(_lp_sr "$(_lp_time)")
+    LP_JOBS=$(_lq_sr "$(_lq_jobcount_color)")
+    LP_TEMP=$(_lq_sr "$(_lq_temperature)")
+    LP_LOAD=$(_lq_sr "$(_lq_load_color)")
+    LP_BATT=$(_lq_sr "$(_lq_battery_color)")
+    LP_TIME=$(_lq_sr "$(_lq_time)")
 
     # in main prompt: no space
-    LP_PROXY="$(_lp_proxy)"
+    LP_PROXY="$(_lq_proxy)"
 
     # right of main prompt: space at left
-    LP_VENV=$(_lp_sl "$(_lp_virtualenv)")
+    LP_VENV=$(_lq_sl "$(_lq_virtualenv)")
     # if change of working directory
     if [[ "$LP_OLD_PWD" != "$PWD" ]]; then
         LP_VCS=""
         LP_VCS_TYPE=""
         # LP_HOST is a global set at load time
-        LP_PERM=$(_lp_permissions_color)
-        LP_PWD=$(_lp_shorten_path)
-        [[ -n "$PROMPT_DIRTRIM" ]] && PROMPT_DIRTRIM=$(_lp_get_dirtrim)
+        LP_PERM=$(_lq_permissions_color)
+        LP_PWD=$(_lq_shorten_path)
+        [[ -n "$PROMPT_DIRTRIM" ]] && PROMPT_DIRTRIM=$(_lq_get_dirtrim)
 
-        if [[ "$(_lp_are_vcs_disabled)" -eq "0" ]] ; then
-            LP_VCS="$(_lp_git_branch_color)"
+        if [[ "$(_lq_are_vcs_disabled)" -eq "0" ]] ; then
+            LP_VCS="$(_lq_git_branch_color)"
             LP_VCS_TYPE="git"
             if [[ -n "$LP_VCS" ]]; then
                 # If this is a git-svn repository
@@ -49,16 +49,16 @@ _lp_set_prompt()
                 fi
             fi # git-svn
             if [[ -z "$LP_VCS" ]]; then
-                LP_VCS="$(_lp_hg_branch_color)"
+                LP_VCS="$(_lq_hg_branch_color)"
                 LP_VCS_TYPE="hg"
                 if [[ -z "$LP_VCS" ]]; then
-                    LP_VCS="$(_lp_svn_branch_color)"
+                    LP_VCS="$(_lq_svn_branch_color)"
                     LP_VCS_TYPE="svn"
                     if [[ -z "$LP_VCS" ]]; then
-                        LP_VCS="$(_lp_fossil_branch_color)"
+                        LP_VCS="$(_lq_fossil_branch_color)"
                         LP_VCS_TYPE="fossil"
                         if [[ -z "$LP_VCS" ]]; then
-                            LP_VCS="$(_lp_bzr_branch_color)"
+                            LP_VCS="$(_lq_bzr_branch_color)"
                             LP_VCS_TYPE="bzr"
                             if [[ -z "$LP_VCS" ]]; then
                                 LP_VCS=""
@@ -77,11 +77,11 @@ _lp_set_prompt()
         if [[ -z "$LP_VCS_TYPE" ]] ; then
             LP_VCS=""
         else
-            LP_VCS=$(_lp_sl "${LP_VCS}")
+            LP_VCS=$(_lq_sl "${LP_VCS}")
         fi
 
         # end of the prompt line: double spaces
-        LP_MARK=$(_lp_sb "$(_lp_smart_mark $LP_VCS_TYPE)")
+        LP_MARK=$(_lq_sb "$(_lq_smart_mark $LP_VCS_TYPE)")
 
         # Different path color if root
         if [[ "$EUID" -ne "0" ]] ; then
@@ -94,12 +94,12 @@ _lp_set_prompt()
     # if do not change of working directory but...
     elif [[ -n "$LP_VCS_TYPE" ]]; then # we are still in a VCS dir
         case "$LP_VCS_TYPE" in
-            git)     LP_VCS=$(_lp_sl "$(_lp_git_branch_color)");;
-            git-svn) LP_VCS=$(_lp_sl "$(_lp_git_branch_color)");;
-            hg)      LP_VCS=$(_lp_sl "$(_lp_hg_branch_color)");;
-            svn)     LP_VCS=$(_lp_sl "$(_lp_svn_branch_color)");;
-            fossil)  LP_VCS=$(_lp_sl "$(_lp_fossil_branch_color)");;
-            bzr)     LP_VCS=$(_lp_sl "$(_lp_bzr_branch_color)");;
+            git)     LP_VCS=$(_lq_sl "$(_lq_git_branch_color)");;
+            git-svn) LP_VCS=$(_lq_sl "$(_lq_git_branch_color)");;
+            hg)      LP_VCS=$(_lq_sl "$(_lq_hg_branch_color)");;
+            svn)     LP_VCS=$(_lq_sl "$(_lq_svn_branch_color)");;
+            fossil)  LP_VCS=$(_lq_sl "$(_lq_fossil_branch_color)");;
+            bzr)     LP_VCS=$(_lq_sl "$(_lq_bzr_branch_color)");;
             disabled)LP_VCS="";;
         esac
     fi
@@ -132,7 +132,7 @@ _lp_set_prompt()
 
         # "invisible" parts
         # Get the current prompt on the fly and make it a title
-        LP_TITLE=$(_lp_title "$PS1")
+        LP_TITLE=$(_lq_title "$PS1")
 
         # Insert it in the prompt
         PS1="${LP_TITLE}${PS1}"

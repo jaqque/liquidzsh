@@ -4,7 +4,7 @@
 # The connection is not expected to change from inside the shell, so we
 # build this just once
 LP_HOST=""
-_lp_chroot()
+_lq_chroot()
 {
     if [[ -r /etc/debian_chroot ]] ; then
         local debchroot
@@ -12,6 +12,6 @@ _lp_chroot()
         echo "(${debchroot})"
     fi
 }
-LP_HOST="$(_lp_chroot)"
-unset _lp_chroot
+LP_HOST="$(_lq_chroot)"
+unset _lq_chroot
 

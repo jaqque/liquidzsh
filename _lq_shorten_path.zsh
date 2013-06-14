@@ -10,7 +10,7 @@
 # http://hbfs.wordpress.com/2009/09/01/short-pwd-in-bash-prompts/
 #
 # + keep some left part of the path if asked
-_lp_shorten_path()
+_lq_shorten_path()
 {
     if [[ "$LP_ENABLE_SHORTEN_PATH" != 1 || -n "$PROMPT_DIRTRIM" ]] ; then
         if $_LP_SHELL_bash; then

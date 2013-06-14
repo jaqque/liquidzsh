@@ -31,7 +31,7 @@
 # David Loureiro    <david.loureiro@sysfera.com>  # small portability fix
 # Étienne Deparis   <etienne.deparis@umaneti.net> # Fossil support
 # Florian Le Frioux <florian@lefrioux.fr>         # Use ± mark when root in VCS dir.
-# François Schmidts <francois.schmidts@gmail.com> # small code fix, _lp_get_dirtrim
+# François Schmidts <francois.schmidts@gmail.com> # small code fix, _lq_get_dirtrim
 # Frédéric Lepied   <flepied@gmail.com>           # Python virtual env
 # Jonas Bengtsson   <jonas.b@gmail.com>           # Git remotes fix
 # Joris Dedieu      <joris@pontiac3.nfrance.com>  # Portability framework, FreeBSD support, bugfixes.
@@ -92,30 +92,30 @@ esac
 
 # Get cpu count
 case "$LP_OS" in
-    Linux)   _lp_CPUNUM=$( nproc 2>/dev/null || grep -c '^[Pp]rocessor' /proc/cpuinfo ) ;;
-    FreeBSD|Darwin) _lp_CPUNUM=$( sysctl -n hw.ncpu ) ;;
-    SunOS)   _lp_CPUNUM=$( kstat -m cpu_info | grep -c "module: cpu_info" ) ;;
+    Linux)   _lq_CPUNUM=$( nproc 2>/dev/null || grep -c '^[Pp]rocessor' /proc/cpuinfo ) ;;
+    FreeBSD|Darwin) _lq_CPUNUM=$( sysctl -n hw.ncpu ) ;;
+    SunOS)   _lq_CPUNUM=$( kstat -m cpu_info | grep -c "module: cpu_info" ) ;;
 esac
 
 
 # get current load
 case "$LP_OS" in
     Linux)
-        _lp_cpu_load () {
+        _lq_cpu_load () {
             local load eol
             read load eol < /proc/loadavg
             echo "$load"
         }
         ;;
     FreeBSD)
-        _lp_cpu_load () {
+        _lq_cpu_load () {
             local bol load eol
             read bol load eol < $<( LANG=C sysctl -n vm.loadavg )
             echo "$load"
         }
         ;;
     Darwin)
-        _lp_cpu_load () {
+        _lq_cpu_load () {
             local load
             load=$(LANG=C sysctl -n vm.loadavg | awk '{print $2}')
             echo "$load"
@@ -123,7 +123,7 @@ case "$LP_OS" in
         LP_DWIN_KERNEL_REL_VER=$(uname -r | cut -d . -f 1)
         ;;
     SunOS)
-        _lp_cpu_load () {
+        _lq_cpu_load () {
             LANG=C uptime | awk '{print substr($10,0,length($10))}'
         }
 esac
@@ -133,8 +133,8 @@ esac
 # CONFIGURATION #
 #################
 
-# define, run, and forget _lp_source_config()
-source _lp_source_config.zsh
+# define, run, and forget _lq_source_config()
+source _lq_source_config.zsh
 
 # Disable features if the tool is not installed
 [[ "$LP_ENABLE_GIT"  = 1 ]] && { command -v git  >/dev/null || LP_ENABLE_GIT=0  ; }
@@ -155,7 +155,7 @@ fi
 
 
 # Load string escape
-source _lp_escape.zsh
+source _lq_escape.zsh
 
 ###############
 # Who are we? #
@@ -183,7 +183,7 @@ fi
 #################
 
 # Determine ssh/telnet/su/sudo
-source _lp_connection.zsh
+source _lq_connection.zsh
 
 
 # Put the hostname if not locally connected
@@ -193,7 +193,7 @@ source _lp_connection.zsh
 # build this just once
 
 # set LP_HOST to current chroot, if any
-source _lp_chroot.zsh
+source _lq_chroot.zsh
 
 # If we are connected with a X11 support
 if [[ -n "$DISPLAY" ]] ; then
@@ -202,7 +202,7 @@ else
     LP_HOST="${LP_COLOR_X11_OFF}${LP_HOST}@${NO_COL}"
 fi
 
-case "$(_lp_connection)" in
+case "$(_lq_connection)" in
 lcl)
     if [[ "${LP_HOSTNAME_ALWAYS}" -eq "0" ]] ; then
         # FIXME do we want to display the chroot if local?
@@ -239,11 +239,11 @@ tel)
 esac
 
 # Useless now, so undefine
-# unset _lp_connection
+# unset _lq_connection
 
 
 # put an arrow if an http proxy is set
-source _lp_proxy.zsh
+source _lq_proxy.zsh
 
 # BASH/ZSH function that shortens
 # a very long path for display by removing
@@ -257,21 +257,21 @@ source _lp_proxy.zsh
 # http://hbfs.wordpress.com/2009/09/01/short-pwd-in-bash-prompts/
 #
 # + keep some left part of the path if asked
-source _lp_shorten_path.zsh
+source _lq_shorten_path.zsh
 
 # In bash shell, PROMPT_DIRTRIM is the number of directory to keep at the end
 # of the displayed path (if "\w" is present in the PS1 var).
 # liquidprompt can calculate this number under two condition, path shortening
 # must be activated and PROMPT_DIRTRIM must be already set.
-source _lp_get_dirtrim.zsh
+source _lq_get_dirtrim.zsh
 
 # Display a ":"
 # colored in green if user have write permission on the current directory
 # colored in red if it have not.
-source _lp_permissions_color.zsh
+source _lq_permissions_color.zsh
 
 # Display the current Python virtual environnement, if available.
-source _lp_virtualenv.zsh
+source _lq_virtualenv.zsh
 
 
 ################
@@ -282,23 +282,23 @@ source _lp_virtualenv.zsh
 # - detached screens sessions and/or tmux sessions running on the host
 # - attached running jobs (started with $ myjob &)
 # - attached stopped jobs (suspended with Ctrl-Z)
-source _lp_jobcount_color.zsh
+source _lq_jobcount_color.zsh
 
 
 # Display the return value of the last command, if different from zero
-source _lp_return_value.zsh
+source _lq_return_value.zsh
 
 
 ######################
 # VCS branch display #
 ######################
 
-source _lp_are_vcs_disabled.zsh
+source _lq_are_vcs_disabled.zsh
 
 # GIT #
 
 # Get the branch name of the current directory
-source _lp_git_branch.zsh
+source _lq_git_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is up to date
@@ -306,25 +306,25 @@ source _lp_git_branch.zsh
 # - red if there is changes to commit
 #
 # Add the number of pending commits and the impacted lines.
-source _lp_git_branch_color.zsh
+source _lq_git_branch_color.zsh
 
 
 # MERCURIAL #
 
 # Get the branch name of the current directory
-source _lp_hg_branch.zsh
+source _lq_hg_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is up to date
 # - red if there is changes to commit
 # - TODO: yellow if there is some commits not pushed
-source _lp_hg_branch_color.zsh
+source _lq_hg_branch_color.zsh
 
 # SUBVERSION #
 
 # Get the branch name of the current directory
 # For the first level of the repository, gives the repository name
-source _lp_svn_branch.zsh
+source _lq_svn_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is clean
@@ -333,13 +333,13 @@ source _lp_svn_branch.zsh
 # - red if there is changes to commit
 # Note that, due to subversion way of managing changes,
 # informations are only displayed for the CURRENT directory.
-source _lp_svn_branch_color.zsh
+source _lq_svn_branch_color.zsh
 
 
 # FOSSIL #
 
 # Get the tag name of the current directory
-source _lp_fossil_branch.zsh
+source _lq_fossil_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is clean
@@ -349,12 +349,12 @@ source _lp_fossil_branch.zsh
 # Add the number of impacted files with a
 # + when files are ADDED or EDITED
 # - when files are DELETED
-source _lp_fossil_branch_color.zsh
+source _lq_fossil_branch_color.zsh
 
 # Bazaar #
 
 # Get the branch name of the current directory
-source _lp_bzr_branch.zsh
+source _lq_bzr_branch.zsh
 
 
 # Set a color depending on the branch state:
@@ -363,7 +363,7 @@ source _lp_bzr_branch.zsh
 # - TODO: yellow if there is some commits not pushed
 #
 # Add the number of pending commits and the impacted lines.
-source _lp_bzr_branch_color.zsh
+source _lq_bzr_branch_color.zsh
 
 
 ##################
@@ -376,7 +376,7 @@ source _lp_bzr_branch_color.zsh
 # returns 2 (and battery level) if battery is charging but under threshold
 # returns 3 (and battery level) if battery is charging and above threshold
 # returns 4 if no battery support
-source _lp_battery.zsh
+source _lq_battery.zsh
 
 # Compute a gradient of background/foreground colors depending on the battery status
 # Display:
@@ -384,72 +384,72 @@ source _lp_battery.zsh
 # a yellow ⏚ if the battery is charging    and under threshold
 # a yellow ⌁ if the battery is discharging but above threshold
 # a    red ⌁ if the battery is discharging and above threshold
-source _lp_battery_color.zsh
+source _lq_battery_color.zsh
 
-source _lp_color_map.zsh
+source _lq_color_map.zsh
 
 ###############
 # System load #
 ###############
 
 # Compute a gradient of background/forground colors depending on the battery status
-source _lp_load_color.zsh
+source _lq_load_color.zsh
 
 ######################
 # System temperature #
 ######################
 
-source _lp_temp_sensors.zsh
+source _lq_temp_sensors.zsh
 
-# Will set _lp_temp_function so the temperature monitoring feature use an
-# available command. _lp_temp_function should return only a numeric value
+# Will set _lq_temp_function so the temperature monitoring feature use an
+# available command. _lq_temp_function should return only a numeric value
 if [[ "$LP_ENABLE_TEMP" = 1 ]]; then
     if command -v sensors >/dev/null; then
-        _lp_temp_function=_lp_temp_sensors
+        _lq_temp_function=_lq_temp_sensors
     # elif command -v the_command_you_want_to_use; then
-    #   _lp_temp_function=your_function
+    #   _lq_temp_function=your_function
     else
         LP_ENABLE_TEMP=0
     fi
 fi
 
-source _lp_temperature.zsh
+source _lq_temperature.zsh
 
 ##########
 # DESIGN #
 ##########
 
 # Remove all colors and escape characters of the given string and return a pure text
-source _lp_as_text.zsh
+source _lq_as_text.zsh
 
-source _lp_title.zsh
+source _lq_title.zsh
 
 # Set the prompt mark to ± if git, to ☿ if mercurial, to ‡ if subversion
 # to # if root and else $
-source _lp_smart_mark.zsh
+source _lq_smart_mark.zsh
 
 # insert a space on the right
-source _lp_sr.zsh
+source _lq_sr.zsh
 
 # insert a space on the left
-source _lp_sl.zsh
+source _lq_sl.zsh
 
 # insert two space, before and after
-source _lp_sb.zsh
+source _lq_sb.zsh
 
 ###################
 # CURRENT TIME    #
 ###################
-source _lp_time_analog.zsh
+source _lq_time_analog.zsh
 
-source _lp_time.zsh
+source _lq_time.zsh
 
 ########################
 # Construct the prompt #
 ########################
 
 
-source _lp_set_prompt.zsh
+source _lq_set_prompt.zsh
 
 source prompt_tag.zsh
 
@@ -460,7 +460,7 @@ source prompt_on.zsh
 source prompt_off.zsh
 
 # Use an empty prompt: just the \$ mark
-source prompt_OFF.zsh
+source prompt_default.zsh
 
 # By default, sourcing liquid.zsh will activate Liquid
 prompt_on

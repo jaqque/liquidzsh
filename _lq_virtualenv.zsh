@@ -1,5 +1,5 @@
 # Display the current Python virtual environnement, if available.
-_lp_virtualenv()
+_lq_virtualenv()
 {
     [[ "$LP_ENABLE_VIRTUALENV" != 1 ]] && return
     if [[ -n "$VIRTUAL_ENV" ]]; then

@@ -6,12 +6,12 @@
 # Add the number of impacted files with a
 # + when files are ADDED or EDITED
 # - when files are DELETED
-_lp_fossil_branch_color()
+_lq_fossil_branch_color()
 {
     [[ "$LP_ENABLE_FOSSIL" != 1 ]] && return
 
     local branch
-    branch=$(_lp_fossil_branch)
+    branch=$(_lq_fossil_branch)
 
     if [[ -n "$branch" ]] ; then
         local C2E # Modified files (added or edited)
@@ -59,7 +59,7 @@ _lp_fossil_branch_color()
                 branch="${LP_COLOR_CHANGES}$branch${NO_COL}$ret${LP_COLOR_CHANGES}$C2A${NO_COL}"
             fi
         fi
-        echo -ne $branch # $(_lp_escape "$branch")
+        echo -ne $branch # $(_lq_escape "$branch")
     fi
 }
 
