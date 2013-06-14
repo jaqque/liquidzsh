@@ -6,7 +6,7 @@ _lq_title()
     local txt=$(_lq_as_text "$1")
 
     # Use it in the window's title
-    # Escapes whill tells bash to ignore the non-printing control characters when calculating the width of the prompt.
+    # Escapes tell zsh to ignore the non-printing control characters when calculating the width of the prompt.
     # Otherwise line editing commands will mess the cursor positionning
     case "$TERM" in
       screen*)
