@@ -351,10 +351,7 @@ complete font.
 
 ## AUTHORS
 
-Liquid is based on nojhan's [Liquid prompt] [LP].
-
-[LP]: https://github.com/nojhan/liquidprompt (A full-featured & carefully
-designed adaptive prompt for Bash & Zsh)
+Liquid is based on nojhan's [Liquid prompt](https://github.com/nojhan/liquidprompt "A full-featured & carefully designed adaptive prompt for Bash & Zsh")
 
 * [Alex Prengère]     (<mailto:alexprengere@gmail.com>      "untracked git files")
 * [Aurelien Requiem]  (<mailto:aurelien@requiem.fr>         "Major clean refactoring, variable path length, error codes, several bugfixes.")
