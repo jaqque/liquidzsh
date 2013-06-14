@@ -351,7 +351,7 @@ complete font.
 
 ## AUTHORS
 
-Liquid is based on nojhan's [Liquid prompt][LP].
+Liquid is based on nojhan's [Liquid prompt] [LP].
 
 [LP]: https://github.com/nojhan/liquidprompt (A full-featured & carefully
 designed adaptive prompt for Bash & Zsh)
