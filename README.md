@@ -1,4 +1,4 @@
-Liquid -- A useful adaptive prompt for Zsh
+Liquid -- An intelligent, adaptive and non-intrusive prompt for Zsh
 ================================================================================
 
 Liquid gives you a nicely displayed prompt with useful information when you
