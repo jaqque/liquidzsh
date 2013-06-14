@@ -141,12 +141,12 @@ export http_proxy="fake"
 # As if we were in an interactive shell
 export PS1="fake prompt \$"
 # load functions
-source ./liquidprompt
+source ./liquid.zsh
 
 # Force liquid prompt function redefinition
-_lp_cpu_load()
+_lq_cpu_load()
 {
-    echo "fake _lp_cpu_load $@" 1>&2
+    echo "fake _lq_cpu_load $@" 1>&2
     echo "0.64"
 }
 
@@ -169,7 +169,7 @@ export LP_USER_ALWAYS=1
 fake_error
 
 # Force set prompt
-_lp_set_prompt
+_lq_set_prompt
 
 
 #########
@@ -202,7 +202,7 @@ assert_has GIT_Mark         gitmark    $LINENO
 # start hiding features
 echo "DISABLE BATTERY"
 export LP_ENABLE_BATT=0
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not Battery_Mark     BATT    $LINENO
 assert_not Battery_level    55%    $LINENO
@@ -211,20 +211,20 @@ assert_not Error            127    $LINENO
 echo "HIDE BATTERY LEVEL"
 export LP_ENABLE_BATT=1
 export LP_BATTERY_THRESHOLD=50
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_has Battery_Mark     BATT    $LINENO
 assert_not Battery_level    55%    $LINENO
 assert_not Error            127    $LINENO
 
 alias acpi="echo 'Battery 0: Full, 100%'"
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not Battery_Mark     BATT    $LINENO
 
 echo "DISABLE LOAD"
 export LP_ENABLE_LOAD=0
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not Load_Mark        LOAD    $LINENO
 assert_not Load_Level       32%    $LINENO
@@ -232,27 +232,27 @@ assert_not Load_Level       32%    $LINENO
 echo "HIDE LOAD"
 export LP_ENABLE_LOAD=1
 export LP_LOAD_THRESHOLD=40
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not Load_Mark        LOAD    $LINENO
 assert_not Load_Level       32%    $LINENO
 
 echo "DISABLE PROXY"
 export LP_ENABLE_PROXY=0
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not Proxy_Mark        proxy    $LINENO
 
 echo "NO PROXY"
 export LP_ENABLE_PROXY=1
 export http_proxy=""
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not Proxy_Mark        proxy    $LINENO
 
 echo "DISABLE GIT"
 export LP_ENABLE_GIT=0
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not GIT_Branch       fake_test    $LINENO
 assert_not GIT_Changes      "+2/-1"    $LINENO
@@ -264,7 +264,7 @@ assert_has User_Mark        $    $LINENO
 echo "NO GIT"
 export LP_ENABLE_GIT=1
 alias git="echo"
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_not GIT_Branch       fake_test    $LINENO
 assert_not GIT_Changes      "+2/-1"    $LINENO
@@ -286,7 +286,7 @@ done
 
 echo "DISABLE SHORTEN PATH"
 export LP_ENABLE_SHORTEN_PATH=0
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_has Path       "$(pwd | sed -e "s|$HOME|~|")"    $LINENO
 
@@ -294,7 +294,7 @@ echo "ENABLE SHORTEN PATH"
 export LP_ENABLE_SHORTEN_PATH=1
 export LP_PATH_LENGTH=35
 export LP_PATH_KEEP=1
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 assert_has Short_Path       " … "    $LINENO
 
@@ -302,7 +302,7 @@ assert_has Short_Path       " … "    $LINENO
 cd $current
 
 echo "LOCAL HOST NAME"
-_lp_set_prompt
+_lq_set_prompt
 log_prompt
 # As the hostname is set once at the script start,
 # and not re-interpret at each prompt,
@@ -314,8 +314,8 @@ else
     assert_has Hostname     "\\\h"    $LINENO
 fi
 
-echo "prompt_OFF"
-prompt_OFF
+echo "prompt_default"
+prompt_default
 log_prompt
 assert_is Prompt            "$ "    $LINENO
 
