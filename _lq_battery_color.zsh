@@ -62,11 +62,7 @@ _lq_battery_color()
                 ret="${ret}${LQ_COLORMAP_0}"
             fi
 
-            if $_LQ_SHELL_bash; then
-                ret="${ret}${bat}%"
-            else # zsh
-                ret="${ret}${bat}%%"
-            fi
+            ret="${ret}${bat}%%"
         fi # LQ_PERCENTS_ALWAYS
         echo -ne "${ret}${NO_COL}"
     fi # ret
