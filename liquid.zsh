@@ -22,6 +22,9 @@
 
 # See the README.md file for a summary of features and authors
 
+# Where are we?
+pushd -q "${_%/*}"
+
 _LQ_OPEN_ESC="%{"
 _LQ_CLOSE_ESC="%}"
 _LQ_USER_SYMBOL="%n"
@@ -420,4 +423,7 @@ prompt_on
 # Cleaning of variable that are not needed at runtime
 unset LQ_OS
 
+# Go back where we were
+popd -q
+#
 # vim: set et sts=4 sw=4 tw=120 ft=sh:
