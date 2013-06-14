@@ -1,5 +1,5 @@
 prompt_tag()
 {
-    export LP_PS1_PREFIX=$(_lp_sr "$1")
+    export LQ_PS1_PREFIX=$(_lq_sr "$1")
 }
 

@@ -1,0 +1,14 @@
+_lq_are_vcs_disabled()
+{
+    [[ -z "$LQ_DISABLED_VCS_PATH" ]] && echo 0 && return
+    local path
+    local IFS=:
+    for path in $LQ_DISABLED_VCS_PATH; do
+        if [[ "$PWD" == *"$path"* ]]; then
+            echo 1
+            return
+        fi
+    done
+    echo 0
+}
+
