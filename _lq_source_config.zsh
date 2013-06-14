@@ -181,7 +181,4 @@ _lq_source_config()
         source "$configfile"
     fi
 }
-# do source config files
-_lq_source_config
-unset _lq_source_config
 

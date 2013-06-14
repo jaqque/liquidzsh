@@ -90,6 +90,8 @@ esac
 
 # define, run, and forget _lq_source_config()
 source _lq_source_config.zsh
+_lq_source_config
+unset _lq_source_config
 
 # Disable features if the tool is not installed
 [[ "$LQ_ENABLE_GIT"  = 1 ]] && { command -v git  >/dev/null || LQ_ENABLE_GIT=0  ; }
