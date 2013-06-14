@@ -137,10 +137,6 @@ _lq_set_prompt()
         # Insert it in the prompt
         PS1="${LQ_TITLE}${PS1}"
 
-        # Glue the bash prompt always go to the first column.
-        # Avoid glitches after interrupting a command with Ctrl-C
-        # Does not seem to be necessary anymore?
-        #PS1="\[\033[G\]${PS1}${NO_COL}"
     else
         PS1=$LQ_PS1
     fi

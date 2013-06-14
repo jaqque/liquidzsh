@@ -4,7 +4,7 @@
 _lq_time_analog()
 {
     # get the date as "hours(12) minutes" in a single call
-    # make a bash array with it
+    # make an array with it
     local d=( $(date "+%I %M") )
     # separate hours and minutes
     local -i hour=${d[0]#0} # no leading 0

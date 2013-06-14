@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/zsh
 
 
 print_ok()
@@ -183,11 +183,11 @@ assert_has Battery_Mark     BATT    $LINENO
 assert_has Battery_Level    55%    $LINENO
 assert_has Load_Mark        LOAD    $LINENO
 assert_has Load_Level       32%    $LINENO
-assert_has User             "[\\\u"    $LINENO
+assert_has User             "[%n"    $LINENO
 if [[ $LQ_HOSTNAME_ALWAYS == 0 ]] ; then
-    assert_not Hostname     "\\\h"    $LINENO
+    assert_not Hostname     "%m"    $LINENO
 else
-    assert_has Hostname     "\\\h"    $LINENO
+    assert_has Hostname     "%m"    $LINENO
 fi
 assert_has Perms            :    $LINENO
 assert_has Path             $(pwd | sed -e "s|$HOME|~|")    $LINENO
@@ -259,7 +259,7 @@ assert_not GIT_Changes      "+2/-1"    $LINENO
 assert_not GIT_Commits      111    $LINENO
 assert_not GIT_Untrack      untracked    $LINENO
 assert_not GIT_Mark         gitmark    $LINENO
-assert_has User_Mark        $    $LINENO
+assert_has User_Mark        %    $LINENO
 
 echo "NO GIT"
 export LQ_ENABLE_GIT=1
@@ -271,16 +271,18 @@ assert_not GIT_Changes      "+2/-1"    $LINENO
 assert_not GIT_Commits      111    $LINENO
 assert_not GIT_Untrack      untracked    $LINENO
 assert_not GIT_Mark         gitmark    $LINENO
-assert_has User_Mark        $    $LINENO
+assert_has User_Mark        %    $LINENO
 
 # create a deep dir tree
 current=$PWD
+deepdir=""
 for d in $(seq 20) ; do
     dirname=""
     for i in $(seq 5); do
          dirname="$dirname$d"
     done
     mkdir -p $dirname
+    deepdir="${deepdir}$dirname/"
     cd $dirname
 done
 
@@ -298,8 +300,9 @@ _lq_set_prompt
 log_prompt
 assert_has Short_Path       " … "    $LINENO
 
-# get back out of the deep tree
+# get back out of the deep tree, and clean up after ourselves
 cd $current
+rmdir -p $deepdir
 
 echo "LOCAL HOST NAME"
 _lq_set_prompt
@@ -309,23 +312,24 @@ log_prompt
 # we cannot export the option in the test script.
 # We thus rely on the existing config.
 if [[ $LQ_HOSTNAME_ALWAYS == 0 ]] ; then
-    assert_not Hostname     "\\\h"    $LINENO
+    assert_not Hostname     "%m"    $LINENO
 else
-    assert_has Hostname     "\\\h"    $LINENO
+    assert_has Hostname     "%m"    $LINENO
 fi
 
 echo "prompt_default"
 prompt_default
 log_prompt
-assert_is Prompt            "$ "    $LINENO
+assert_is Prompt            "%m%# "    $LINENO
 
 echo "prompt_on"
 prompt_on
+precmd
 export LQ_USER_ALWAYS=1
 log_prompt
-assert_has User             "\\\u"    $LINENO
+assert_has User             "%n"    $LINENO
 assert_has Perms            :    $LINENO
 assert_has Path             $(pwd | sed -e "s|$HOME|~|")    $LINENO
 # assert_has Path             "\\\w"    $LINENO
-assert_has Prompt           "$ "    $LINENO
+assert_has Prompt           "% "    $LINENO
 
