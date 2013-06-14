@@ -1,5 +1,5 @@
 # Use an empty prompt: just the \$ mark
-prompt_OFF()
+prompt_default()
 {
     PS1="\$ "
     if $_LP_SHELL_bash; then
