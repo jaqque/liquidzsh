@@ -1,9 +1,9 @@
 Liquid -- A useful adaptive prompt for Zsh
 ================================================================================
 
-Liquid gives you a nicely displayed prompt with useful information
-when you need it. It shows you what you need when you need it.
-You will notice what changes, when it changes saving time and frustration.
+Liquid gives you a nicely displayed prompt with useful information when you
+need it. It shows you what you need when you need it. You will notice what
+changes, when it changes saving time and frustration.
 
 ![Screenshot](https://raw.github.com/jaqque/liquidzsh/master/demo.png)
 
@@ -26,24 +26,24 @@ Liquid displaying everything (a rare event!) may look like this:
 
 It (may) displays:
 
-* A tag associated to the current shell session (you can easily add any
-prefix tag to your prompt, by invoking `prompt_tag MYTAG`)
+* A tag associated to the current shell session (you can easily add any prefix
+tag to your prompt, by invoking `prompt_tag MYTAG`)
 * The current time, either as numeric values or an analog clock
-* a green ⏚ if the battery is charging, above the given threshold, but not charged,
-a yellow ⏚ if the battery is charging and under threshold,
-a yellow ⌁ if the battery is discharging but above threshold,
-a  red ⌁ if the battery is discharging and under threshold
+* a green ⏚ if the battery is charging, above the given threshold, but not
+charged, a yellow ⏚ if the battery is charging and under threshold, a yellow ⌁
+if the battery is discharging but above threshold, a  red ⌁ if the battery is
+discharging and under threshold
 * the average of the batteries' remaining power, if it is under the given
 threshold, with a colormap, going more and more red with decreasing power
 * the average of the processors load, if it is over a given limit, with a
 colormap that becomes more and more noticeable with increasing load
-* the average temperature of the available sensors in the system (generally CPU
-and MB)
+* the average temperature of the available sensors in the system (generally
+CPU and MB)
 * the number of detached sessions (`screen` or `tmux`), if there are any
-* the number of attached sleeping jobs (when you interrupt a command with Ctrl-Z
-and bring it back with `fg`), if there are any
-* the number of attached running jobs (commands started with a `&`), if there are
-any
+* the number of attached sleeping jobs (when you interrupt a command with
+Ctrl-Z and bring it back with `fg`), if there are any
+* the number of attached running jobs (commands started with a `&`), if there
+are any
 * a pair of square brackets, in blue if your current shell is running in a
 terminal multiplexer (`screen` or `tmux`)
 * the current user, in bold yellow if it is root, in light white if it is not
@@ -71,10 +71,10 @@ changes have been made and the number of pending commits, if any
 * if you ask, Liquid will be replicate your prompt to your terminal window's
 title (without the colors)
 
-You can temporarily deactivate Liquid and come back to your previous
-one by typing `prompt_off`. Use `prompt_on` to bring it back. You can deactivate
-any prompt and use a single mark sign (`% ` for user and `# ` for root) with the
-`prompt_OFF` command.
+You can temporarily deactivate Liquid and come back to your previous prompt by
+typing `prompt_off`. Use `prompt_on` to bring it back. You can deactivate any
+prompt and use a single mark sign (`% ` for user and `# ` for root) with the
+`prompt_default` command.
 
 
 ## TEST RIDE AND INSTALLATION
@@ -128,19 +128,20 @@ You can configure some variables in the `~/.config/liquid.rc` file:
 * `LQ_BATTERY_THRESHOLD`, the maximal value under which the battery level is
 displayed
 * `LQ_LOAD_THRESHOLD`, the minimal value after which the load average is
-* `LQ_TEMP_THRESHOLD`, the minimal value after which the temperature average is
 displayed
+* `LQ_TEMP_THRESHOLD`, the minimal value after which the temperature average
+is displayed
 * `LQ_PATH_LENGTH`, the maximum percentage of the screen width used to display
 the path
 * `LQ_PATH_KEEP`, how many directories to keep at the beginning of a shortened
 path
-* `LQ_HOSTNAME_ALWAYS`, choose between always displaying the hostname or showing
-it only when connected with a remote shell
+* `LQ_HOSTNAME_ALWAYS`, choose between always displaying the hostname or
+showing it only when connected with a remote shell
 * `LQ_USER_ALWAYS`, choose between always displaying the user or showing
 it only when he is different from the logged one
 
-You can also force some features to be disabled, to save some time in the prompt
-building:
+You can also force some features to be disabled, to save some time in the
+prompt building:
 * `LQ_ENABLE_PERM`, if you want to detect if the directory is writable
 * `LQ_ENABLE_SHORTEN_PATH`, if you want to shorten the path display
 * `LQ_ENABLE_PROXY`, if you want to detect if a proxy is used
@@ -184,13 +185,13 @@ You can prefix the `LQ_PS1` variable with anything you want using the
 
     LQ_PS1_PREFIX="\[\e]0;\u@\h: \w\a\]"
 
-To postfix the prompt, use the `LQ_PS1_POSTFIX` variable. For example, to add a
-newline and a single character:
+To postfix the prompt, use the `LQ_PS1_POSTFIX` variable. For example, to add
+a newline and a single character:
 
     LQ_PS1_POSTFIX="\n>"
 
-Note: the `prompt_tag` function is convenient way to add a prefix. You can thus add
-a keyword to your different terminals:
+Note: the `prompt_tag` function is convenient way to add a prefix. You can
+thus add a keyword to your different terminals:
 
     [:~/code/liquidprompt] develop ± prompt_tag mycode
     mycode [:~/code/liquidprompt] develop ±
@@ -204,8 +205,8 @@ You can start from the `sample-liquid.ps1` file, which show the default
 settings. To use your own configuration, just set `LQ_PS1_FILE` to your own
 file path in your `~/.config/liquid.rc` and you're done.
 
-Those scripts basically export the `LQ_PS1` variable, by appending features and
-theme colors.
+Those scripts basically export the `LQ_PS1` variable, by appending features
+and theme colors.
 
 Available features:
 * `LQ_BATT` battery
@@ -257,7 +258,8 @@ Set to a null string "" if you do not want color.
 * Color of the proxy mark
     * `LQ_COLOR_PROXY`
 * Jobs count
-    * `LQ_COLOR_JOB_D` Detached (screen/tmux sessions without attached clients)
+    * `LQ_COLOR_JOB_D` Detached (screen/tmux sessions without attached
+clients)
     * `LQ_COLOR_JOB_R` Running (xterm &)
     * `LQ_COLOR_JOB_Z` Sleeping (Ctrl-Z)
     * `LQ_COLOR_IN_MULTIPLEXER` currently running in a terminal multiplexer
@@ -293,7 +295,8 @@ Set to a null string "" if you do not want color.
 ### CHARACTERS
 
 Special characters:
-* `LQ_MARK_DEFAULT` (default: "") the mark you want at the end of your prompt (leave to empty for default mark)
+* `LQ_MARK_DEFAULT` (default: "") the mark you want at the end of your prompt
+(leave to empty for default mark)
 * `LQ_MARK_BATTERY` (default: "⌁") in front of the battery charge
 * `LQ_MARK_ADAPTER` (default: "⏚") displayed when plugged
 * `LQ_MARK_LOAD` (default: "⌂") in front of the load
@@ -303,22 +306,27 @@ Special characters:
 * `LQ_MARK_GIT` (default: "±") prompt mark in git repositories
 * `LQ_MARK_FOSSIL` (default: "⌘") prompt mark in fossil repositories
 * `LQ_MARK_BZR` (default: "⚯") prompt mark in bazaar repositories
-* `LQ_MARK_DISABLED` (default: "⌀") prompt mark in disabled repositories (see `LQ_DISABLED_VCS_PATH`)
+* `LQ_MARK_DISABLED` (default: "⌀") prompt mark in disabled repositories (see
+`LQ_DISABLED_VCS_PATH`)
 * `LQ_MARK_UNTRACKED` (default: "*") if git has untracked files
 * `LQ_MARK_STASH` (default: "+") if git has stashed modifications
 * `LQ_MARK_BRACKET_OPEN` (default: "[") marks around the main part of the prompt
-* `LQ_MARK_BRACKET_CLOSE` (default: "]") marks around the main part of the prompt
+* `LQ_MARK_BRACKET_CLOSE` (default: "]") marks around the main part of the
+prompt
 * `LQ_TITLE_OPEN` (default: "\e]0;") escape character opening a window's title
 * `LQ_TITLE_CLOSE` (default: "\a") escape character closing a window's title
-* `LQ_SCREEN_TITLE_OPEN` (default: "\033k") escape character opening screen window's title
-* `LQ_SCREEN_TITLE_CLOSE` (default: "\033\134") escape character closing screen window's title
+* `LQ_SCREEN_TITLE_OPEN` (default: "\033k") escape character opening screen
+window's title
+* `LQ_SCREEN_TITLE_CLOSE` (default: "\033\134") escape character closing
+screen window's title
 
 
 ## KNOWN LIMITATIONS AND BUGS
 
 Liquid is distributed under the GNU Affero General Public License version 3.
 
-* Does not display the number of commits to be pushed in Mercurial repositories.
+* Does not display the number of commits to be pushed in Mercurial
+repositories.
 * Browsing into very large subversion repositories may dramatically slow down
 the display of the liquid prompt (use `LQ_DISABLED_VCS_PATH` to avoid that).
 * Subversion repository cannot display commits to be pushed, this is a
@@ -329,3 +337,30 @@ limitation of the Subversion versionning model.
 * The analog clock necessitate a unicode-aware terminal and a sufficiently
 complete font.
 
+## AUTHORS
+
+Liquid is based on nojhan's [Liquid prompt][LP].
+
+* [Alex Prengère]     (<alexprengere@gmail.com>      "untracked git files")
+* [Aurelien Requiem]  (<aurelien@requiem.fr>         "Major clean refactoring, variable path length, error codes, several bugfixes.")
+* [Brendan Fahy]      (<bmfahy@gmail.com>            "postfix variable")
+* [Clément Mathieu]   (<clement@unportant.info>      "Bazaar support")
+* [David Loureiro]    (<david.loureiro@sysfera.com>  "small portability fix")
+* [Étienne Deparis]   (<etienne.deparis@umaneti.net> "Fossil support")
+* [Florian Le Frioux] (<florian@lefrioux.fr>         "Use ± mark when root in VCS dir.")
+* [François Schmidts] (<francois.schmidts@gmail.com> "small code fix, _lq_get_dirtrim")
+* [Frédéric Lepied]   (<flepied@gmail.com>           "Python virtual env")
+* [Jonas Bengtsson]   (<jonas.b@gmail.com>           "Git remotes fix")
+* [Joris Dedieu]      (<joris@pontiac3.nfrance.com>  "Portability framework, FreeBSD support, bugfixes.")
+* [Joris Vaillant]    (<joris.vaillant@gmail.com>    "small git fix")
+* [Luc Didry]         (<luc@fiat-tux.fr>             "Zsh port, several fix")
+* [Ludovic Rousseau]  (<ludovic.rousseau@gmail.com>  "Lot of bugfixes.")
+* [Nicolas Lacourte]  (<nicolas@dotinfra.fr>         "screen title")
+* [nojhan]            (<nojhan@gmail.com>            "Main author.")
+* [Olivier Mengué]    (<dolmen@cpan.org>             "Major optimizations and refactorings everywhere.")
+* [Poil]              (<poil@quake.fr>               "speed improvements")
+* [Thomas Debesse]    (<thomas.debesse@gmail.com>    "Fix columns use.")
+* [Yann 'Ze' Richard] (<ze@nbox.org>                 "Do not fail on missing commands.")
+
+[LP]: https://github.com/nojhan/liquidprompt (A full-featured & carefully
+designed adaptive prompt for Bash & Zsh)
