@@ -23,7 +23,13 @@
 # See the README.md file for a summary of features and authors
 
 # Where are we?
-pushd -q "${_%/*}"
+# Too clever:
+#  1) ${_%/*} take the argument (name of this file) and remove the 
+#     last / plus anything following it
+#  2) ${ #$_} if 1) above matches the last argument, print nothing 
+#     (eg: $_ had no / in it)
+#  3) ${ :-.} if 2) above is blank, then print .
+pushd -q "${${${_%/*}:#$_}:-.}"
 
 _LQ_OPEN_ESC="%{"
 _LQ_CLOSE_ESC="%}"
