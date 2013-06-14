@@ -275,12 +275,14 @@ assert_has User_Mark        $    $LINENO
 
 # create a deep dir tree
 current=$PWD
+deepdir=""
 for d in $(seq 20) ; do
     dirname=""
     for i in $(seq 5); do
          dirname="$dirname$d"
     done
     mkdir -p $dirname
+    deepdir="${deepdir}$dirname/"
     cd $dirname
 done
 
@@ -298,8 +300,9 @@ _lq_set_prompt
 log_prompt
 assert_has Short_Path       " … "    $LINENO
 
-# get back out of the deep tree
+# get back out of the deep tree, and clean up after ourselves
 cd $current
+rmdir -p $deepdir
 
 echo "LOCAL HOST NAME"
 _lq_set_prompt
