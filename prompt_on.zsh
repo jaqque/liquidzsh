@@ -2,24 +2,16 @@
 prompt_on()
 {
     # if liquidprompt has not been already set
-    if [[ -z "$LQ_LIQUIDPROMPT" ]] ; then
+    if [[ -z "$LQ_LOADED" ]] ; then
         LQ_OLD_PS1="$PS1"
-        if $_LQ_SHELL_bash; then
-            LQ_OLD_PROMPT_COMMAND="$PROMPT_COMMAND"
-        else # zsh
-            LQ_OLD_PROMPT_COMMAND="$precmd"
-        fi
+        LQ_OLD_PROMPT_COMMAND="$precmd"
     fi
-    if $_LQ_SHELL_bash; then
-        PROMPT_COMMAND=_lq_set_prompt
-    else # zsh
-        function precmd {
-            _lq_set_prompt
-        }
-    fi
+    function precmd {
+        _lq_set_prompt
+    }
 
-    # Keep in mind that LP has been sourced
+    # Keep in mind that Liquid has been sourced
     # (to avoid recursive prompt command).
-    LQ_LIQUIDPROMPT=1
+    LQ_LOADED=1
 }
 
