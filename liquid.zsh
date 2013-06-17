@@ -58,47 +58,29 @@ case "$LQ_OS" in
     SunOS)   _lq_CPUNUM=$( kstat -m cpu_info | grep -c "module: cpu_info" ) ;;
 esac
 
+# get correct sed extended regular expresions flag
+if sed --version &>/dev/null; then
+  # GNU sed
+  LQ_EXTENDED_RE='-r'
+else
+  # BSD sed
+  LQ_EXTENDED_RE='-E'
+fi
 
 # get current load
-case "$LQ_OS" in
-    Linux)
-        _lq_cpu_load () {
-            local load eol
-            read load eol < /proc/loadavg
-            echo "$load"
-        }
-        ;;
-    FreeBSD)
-        _lq_cpu_load () {
-            local bol load eol
-            read bol load eol < $<( LANG=C sysctl -n vm.loadavg )
-            echo "$load"
-        }
-        ;;
-    Darwin)
-        _lq_cpu_load () {
-            local load
-            load=$(LANG=C sysctl -n vm.loadavg | awk '{print $2}')
-            echo "$load"
-        }
-        LQ_DWIN_KERNEL_REL_VER=$(uname -r | cut -d . -f 1)
-        ;;
-    SunOS)
-        _lq_cpu_load () {
-            LANG=C uptime | awk '{print substr($10,0,length($10))}'
-        }
-esac
+source functions/$LQ_OS/_lq_cpu_load.zsh
 
 
 #################
 # CONFIGURATION #
 #################
 
+# Colors for everyone
 autoload -U colors
 colors
 
 # define, run, and forget _lq_source_config()
-source _lq_source_config.zsh
+source functions/_lq_source_config.zsh
 _lq_source_config
 unset _lq_source_config
 
@@ -121,7 +103,7 @@ fi
 
 
 # Load string escape
-source _lq_escape.zsh
+source functions/_lq_escape.zsh
 
 ###############
 # Who are we? #
@@ -149,7 +131,7 @@ fi
 #################
 
 # Determine ssh/telnet/su/sudo
-source _lq_connection.zsh
+source functions/_lq_connection.zsh
 
 
 # Put the hostname if not locally connected
@@ -159,7 +141,7 @@ source _lq_connection.zsh
 # build this just once
 
 # set LQ_HOST to current chroot, if any
-source _lq_chroot.zsh
+source functions/_lq_chroot.zsh
 
 # If we are connected with a X11 support
 if [[ -n "$DISPLAY" ]] ; then
@@ -209,7 +191,7 @@ esac
 
 
 # put an arrow if an http proxy is set
-source _lq_proxy.zsh
+source functions/_lq_proxy.zsh
 
 # Function that shortens
 # a very long path for display by removing
@@ -223,21 +205,21 @@ source _lq_proxy.zsh
 # http://hbfs.wordpress.com/2009/09/01/short-pwd-in-bash-prompts/
 #
 # + keep some left part of the path if asked
-source _lq_shorten_path.zsh
+source functions/_lq_shorten_path.zsh
 
 # In bash shell, PROMPT_DIRTRIM is the number of directory to keep at the end
 # of the displayed path (if "\w" is present in the PS1 var).
 # liquidprompt can calculate this number under two condition, path shortening
 # must be activated and PROMPT_DIRTRIM must be already set.
-source _lq_get_dirtrim.zsh
+source functions/_lq_get_dirtrim.zsh
 
 # Display a ":"
 # colored in green if user have write permission on the current directory
 # colored in red if it have not.
-source _lq_permissions_color.zsh
+source functions/_lq_permissions_color.zsh
 
 # Display the current Python virtual environnement, if available.
-source _lq_virtualenv.zsh
+source functions/_lq_virtualenv.zsh
 
 
 ################
@@ -248,23 +230,23 @@ source _lq_virtualenv.zsh
 # - detached screens sessions and/or tmux sessions running on the host
 # - attached running jobs (started with $ myjob &)
 # - attached stopped jobs (suspended with Ctrl-Z)
-source _lq_jobcount_color.zsh
+source functions/_lq_jobcount_color.zsh
 
 
 # Display the return value of the last command, if different from zero
-source _lq_return_value.zsh
+source functions/_lq_return_value.zsh
 
 
 ######################
 # VCS branch display #
 ######################
 
-source _lq_are_vcs_disabled.zsh
+source functions/_lq_are_vcs_disabled.zsh
 
 # GIT #
 
 # Get the branch name of the current directory
-source _lq_git_branch.zsh
+source functions/_lq_git_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is up to date
@@ -272,25 +254,25 @@ source _lq_git_branch.zsh
 # - red if there is changes to commit
 #
 # Add the number of pending commits and the impacted lines.
-source _lq_git_branch_color.zsh
+source functions/_lq_git_branch_color.zsh
 
 
 # MERCURIAL #
 
 # Get the branch name of the current directory
-source _lq_hg_branch.zsh
+source functions/_lq_hg_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is up to date
 # - red if there is changes to commit
 # - TODO: yellow if there is some commits not pushed
-source _lq_hg_branch_color.zsh
+source functions/_lq_hg_branch_color.zsh
 
 # SUBVERSION #
 
 # Get the branch name of the current directory
 # For the first level of the repository, gives the repository name
-source _lq_svn_branch.zsh
+source functions/_lq_svn_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is clean
@@ -299,13 +281,13 @@ source _lq_svn_branch.zsh
 # - red if there is changes to commit
 # Note that, due to subversion way of managing changes,
 # informations are only displayed for the CURRENT directory.
-source _lq_svn_branch_color.zsh
+source functions/_lq_svn_branch_color.zsh
 
 
 # FOSSIL #
 
 # Get the tag name of the current directory
-source _lq_fossil_branch.zsh
+source functions/_lq_fossil_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is clean
@@ -315,12 +297,12 @@ source _lq_fossil_branch.zsh
 # Add the number of impacted files with a
 # + when files are ADDED or EDITED
 # - when files are DELETED
-source _lq_fossil_branch_color.zsh
+source functions/_lq_fossil_branch_color.zsh
 
 # Bazaar #
 
 # Get the branch name of the current directory
-source _lq_bzr_branch.zsh
+source functions/_lq_bzr_branch.zsh
 
 
 # Set a color depending on the branch state:
@@ -329,7 +311,7 @@ source _lq_bzr_branch.zsh
 # - TODO: yellow if there is some commits not pushed
 #
 # Add the number of pending commits and the impacted lines.
-source _lq_bzr_branch_color.zsh
+source functions/_lq_bzr_branch_color.zsh
 
 
 ##################
@@ -342,7 +324,7 @@ source _lq_bzr_branch_color.zsh
 # returns 2 (and battery level) if battery is charging but under threshold
 # returns 3 (and battery level) if battery is charging and above threshold
 # returns 4 if no battery support
-source _lq_battery.zsh
+source functions/_lq_battery.zsh
 
 # Compute a gradient of background/foreground colors depending on the battery status
 # Display:
@@ -350,22 +332,22 @@ source _lq_battery.zsh
 # a yellow ⏚ if the battery is charging    and under threshold
 # a yellow ⌁ if the battery is discharging but above threshold
 # a    red ⌁ if the battery is discharging and above threshold
-source _lq_battery_color.zsh
+source functions/_lq_battery_color.zsh
 
-source _lq_color_map.zsh
+source functions/_lq_color_map.zsh
 
 ###############
 # System load #
 ###############
 
 # Compute a gradient of background/forground colors depending on the battery status
-source _lq_load_color.zsh
+source functions/_lq_load_color.zsh
 
 ######################
 # System temperature #
 ######################
 
-source _lq_temp_sensors.zsh
+source functions/_lq_temp_sensors.zsh
 
 # Will set _lq_temp_function so the temperature monitoring feature use an
 # available command. _lq_temp_function should return only a numeric value
@@ -379,54 +361,54 @@ if [[ "$LQ_ENABLE_TEMP" = 1 ]]; then
     fi
 fi
 
-source _lq_temperature.zsh
+source functions/_lq_temperature.zsh
 
 ##########
 # DESIGN #
 ##########
 
 # Remove all colors and escape characters of the given string and return a pure text
-source _lq_as_text.zsh
+source functions/_lq_as_text.zsh
 
-source _lq_title.zsh
+source functions/_lq_title.zsh
 
 # Set the prompt mark to ± if git, to ☿ if mercurial, to ‡ if subversion
 # to # if root and else $
-source _lq_smart_mark.zsh
+source functions/_lq_smart_mark.zsh
 
 # insert a space on the right
-source _lq_sr.zsh
+source functions/_lq_sr.zsh
 
 # insert a space on the left
-source _lq_sl.zsh
+source functions/_lq_sl.zsh
 
 # insert two space, before and after
-source _lq_sb.zsh
+source functions/_lq_sb.zsh
 
 ###################
 # CURRENT TIME    #
 ###################
-source _lq_time_analog.zsh
+source functions/_lq_time_analog.zsh
 
-source _lq_time.zsh
+source functions/_lq_time.zsh
 
 ########################
 # Construct the prompt #
 ########################
 
 
-source _lq_set_prompt.zsh
+source functions/_lq_set_prompt.zsh
 
-source prompt_tag.zsh
+source functions/prompt_tag.zsh
 
 # Activate the liquid prompt
-source prompt_on.zsh
+source functions/prompt_on.zsh
 
 # Come back to the old prompt
-source prompt_off.zsh
+source functions/prompt_off.zsh
 
 # Use an empty prompt: just the \$ mark
-source prompt_default.zsh
+source functions/prompt_default.zsh
 
 # By default, sourcing liquid.zsh will activate Liquid
 prompt_on

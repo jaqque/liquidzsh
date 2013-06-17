@@ -8,16 +8,6 @@ _lq_set_prompt()
     local IFS="$(echo -e ' \t')
 "       # space, tab, LF
 
-    # execute the old prompt if not on Mac OS X (Mountain) Lion
-    case "$LQ_OS" in
-        Linux|FreeBSD|SunOS) $LQ_OLD_PROMPT_COMMAND ;;
-        Darwin)
-            case "$(LQ_DWIN_KERNEL_REL_VER)" in
-                11|12) update_terminal_cwd ;;
-                *) $LQ_OLD_PROMPT_COMMAND ;;
-            esac ;;
-    esac
-
     # left of main prompt: space at right
     LQ_JOBS=$(_lq_sr "$(_lq_jobcount_color)")
     LQ_TEMP=$(_lq_sr "$(_lq_temperature)")
