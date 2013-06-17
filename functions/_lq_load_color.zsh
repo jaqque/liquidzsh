@@ -16,7 +16,7 @@ _lq_load_color()
 
     if [[ $load -ge $LQ_LOAD_THRESHOLD ]]
     then
-        local ret="$(_lq_color_map $load) ${LQ_MARK_LOAD}"
+        local ret="$(_lq_heatmap $((load/20)))${LQ_MARK_LOAD}"
 
         if [[ "$LQ_PERCENTS_ALWAYS" -eq "1" ]]; then
             ret="${ret}$load%%"

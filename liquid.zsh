@@ -79,6 +79,8 @@ source functions/$LQ_OS/_lq_cpu_load.zsh
 autoload -U colors
 colors
 
+typeset -A LQ_HEATMAP
+
 # define, run, and forget _lq_source_config()
 source functions/_lq_source_config.zsh
 _lq_source_config
@@ -334,7 +336,8 @@ source functions/_lq_battery.zsh
 # a    red ⌁ if the battery is discharging and above threshold
 source functions/_lq_battery_color.zsh
 
-source functions/_lq_color_map.zsh
+# Color gradient, from okay to critical
+source functions/_lq_heatmap.zsh
 
 ###############
 # System load #
