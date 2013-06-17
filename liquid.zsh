@@ -58,6 +58,14 @@ case "$LQ_OS" in
     SunOS)   _lq_CPUNUM=$( kstat -m cpu_info | grep -c "module: cpu_info" ) ;;
 esac
 
+# get correct sed extended regular expresions flag
+if sed --version &>/dev/null; then
+  # GNU sed
+  LQ_EXTENDED_RE='-r'
+else
+  # BSD sed
+  LQ_EXTENDED_RE='-E'
+fi
 
 # get current load
 source functions/$LQ_OS/_lq_cpu_load.zsh
@@ -67,6 +75,7 @@ source functions/$LQ_OS/_lq_cpu_load.zsh
 # CONFIGURATION #
 #################
 
+# Colors for everyone
 autoload -U colors
 colors
 
