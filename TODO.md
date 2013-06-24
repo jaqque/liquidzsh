@@ -20,6 +20,7 @@ Items
     * comments readded
     * might break some spacing
 * indentions will be 8 instead of 4, but that will be okay
+* Verify lowest version of zsh usable
 
 
 
