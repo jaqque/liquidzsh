@@ -11,7 +11,7 @@ local mark=$LQ_MARK_BATTERY
 local chargingmark=$LQ_MARK_ADAPTER
 local bat
 local ret
-bat=$(_lq_battery)
+bat=$(lq_battery)
 ret=$?
 
 if [[ $ret == 4 || $bat == 100 ]] ; then

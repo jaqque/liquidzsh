@@ -1,5 +1,5 @@
 # as this get the last returned code, it should be called first
-LQ_ERR="$(_lq_sl $(_lq_return_value $?))"
+LQ_ERR="$(lq_sl $(_lq_return_value $?))"
 
 # Reset IFS to its default value to avoid strange behaviors
 # (in case the user is playing with the value at the prompt)
@@ -7,28 +7,28 @@ local IFS="$(echo -e ' \t')
 "       # space, tab, LF
 
 # left of main prompt: space at right
-LQ_JOBS=$(_lq_sr "$(_lq_jobcount_color)")
-LQ_TEMP=$(_lq_sr "$(_lq_temperature)")
-LQ_LOAD=$(_lq_sr "$(_lq_load_color)")
-LQ_BATT=$(_lq_sr "$(_lq_battery_color)")
-LQ_TIME=$(_lq_sr "$(_lq_time)")
+LQ_JOBS=$(lq_sr "$(_lq_jobcount_color)")
+LQ_TEMP=$(lq_sr "$(_lq_temperature)")
+LQ_LOAD=$(lq_sr "$(_lq_load_color)")
+LQ_BATT=$(lq_sr "$(_lq_battery_color)")
+LQ_TIME=$(lq_sr "$(_lq_time)")
 
 # in main prompt: no space
-LQ_PROXY="$(_lq_proxy)"
+LQ_PROXY="$(lq_proxy)"
 
 # right of main prompt: space at left
-LQ_VENV=$(_lq_sl "$(_lq_virtualenv)")
+LQ_VENV=$(lq_sl "$(_lq_virtualenv)")
 # if change of working directory
 if [[ "$LQ_OLD_PWD" != "$PWD" ]]; then
 	LQ_VCS=""
 	LQ_VCS_TYPE=""
 	# LQ_HOST is a global set at load time
-	LQ_PERM=$(_lq_permissions_color)
-	LQ_PWD=$(_lq_shorten_path)
-	[[ -n "$PROMPT_DIRTRIM" ]] && PROMPT_DIRTRIM=$(_lq_get_dirtrim)
+	LQ_PERM=$(lq_permissions_color)
+	LQ_PWD=$(lq_shorten_path)
+	[[ -n "$PROMPT_DIRTRIM" ]] && PROMPT_DIRTRIM=$(lq_get_dirtrim)
 
-	if [[ "$(_lq_are_vcs_disabled)" -eq "0" ]] ; then
-		LQ_VCS="$(_lq_git_branch_color)"
+	if [[ "$(lq_are_vcs_disabled)" -eq "0" ]] ; then
+		LQ_VCS="$(lq_git_branch_color)"
 		LQ_VCS_TYPE="git"
 		if [[ -n "$LQ_VCS" ]]; then
 			# If this is a git-svn repository
@@ -37,16 +37,16 @@ if [[ "$LQ_OLD_PWD" != "$PWD" ]]; then
 			fi
 		fi # git-svn
 		if [[ -z "$LQ_VCS" ]]; then
-			LQ_VCS="$(_lq_hg_branch_color)"
+			LQ_VCS="$(lq_hg_branch_color)"
 			LQ_VCS_TYPE="hg"
 			if [[ -z "$LQ_VCS" ]]; then
-				LQ_VCS="$(_lq_svn_branch_color)"
+				LQ_VCS="$(lq_svn_branch_color)"
 				LQ_VCS_TYPE="svn"
 				if [[ -z "$LQ_VCS" ]]; then
-					LQ_VCS="$(_lq_fossil_branch_color)"
+					LQ_VCS="$(lq_fossil_branch_color)"
 					LQ_VCS_TYPE="fossil"
 					if [[ -z "$LQ_VCS" ]]; then
-						LQ_VCS="$(_lq_bzr_branch_color)"
+						LQ_VCS="$(lq_bzr_branch_color)"
 						LQ_VCS_TYPE="bzr"
 						if [[ -z "$LQ_VCS" ]]; then
 							LQ_VCS=""
@@ -65,11 +65,11 @@ if [[ "$LQ_OLD_PWD" != "$PWD" ]]; then
 	if [[ -z "$LQ_VCS_TYPE" ]] ; then
 		LQ_VCS=""
 	else
-		LQ_VCS=$(_lq_sl "${LQ_VCS}")
+		LQ_VCS=$(lq_sl "${LQ_VCS}")
 	fi
 
 	# end of the prompt line: double spaces
-	LQ_MARK=$(_lq_sb "$(_lq_smart_mark $LQ_VCS_TYPE)")
+	LQ_MARK=$(lq_sb "$(_lq_smart_mark $LQ_VCS_TYPE)")
 
 	# Different path color if root
 	if [[ "$EUID" -ne "0" ]] ; then
@@ -82,12 +82,12 @@ if [[ "$LQ_OLD_PWD" != "$PWD" ]]; then
 # if do not change of working directory but...
 elif [[ -n "$LQ_VCS_TYPE" ]]; then # we are still in a VCS dir
 	case "$LQ_VCS_TYPE" in
-		git)     LQ_VCS=$(_lq_sl "$(_lq_git_branch_color)");;
-		git-svn) LQ_VCS=$(_lq_sl "$(_lq_git_branch_color)");;
-		hg)      LQ_VCS=$(_lq_sl "$(_lq_hg_branch_color)");;
-		svn)     LQ_VCS=$(_lq_sl "$(_lq_svn_branch_color)");;
-		fossil)  LQ_VCS=$(_lq_sl "$(_lq_fossil_branch_color)");;
-		bzr)     LQ_VCS=$(_lq_sl "$(_lq_bzr_branch_color)");;
+		git)     LQ_VCS=$(lq_sl "$(_lq_git_branch_color)");;
+		git-svn) LQ_VCS=$(lq_sl "$(_lq_git_branch_color)");;
+		hg)      LQ_VCS=$(lq_sl "$(_lq_hg_branch_color)");;
+		svn)     LQ_VCS=$(lq_sl "$(_lq_svn_branch_color)");;
+		fossil)  LQ_VCS=$(lq_sl "$(_lq_fossil_branch_color)");;
+		bzr)     LQ_VCS=$(lq_sl "$(_lq_bzr_branch_color)");;
 		disabled)LQ_VCS="";;
 	esac
 fi
@@ -120,7 +120,7 @@ if [[ -z $LQ_PS1 ]] ; then
 
 	# "invisible" parts
 	# Get the current prompt on the fly and make it a title
-	LQ_TITLE=$(_lq_title "$PS1")
+	LQ_TITLE=$(lq_title "$PS1")
 
 	# Insert it in the prompt
 	PS1="${LQ_TITLE}${PS1}"

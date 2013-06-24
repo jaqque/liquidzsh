@@ -7,7 +7,7 @@
 
 local branch
 local ret
-branch=$(_lq_hg_branch)
+branch=$(lq_hg_branch)
 if [[ -n "$branch" ]] ; then
 
 	local has_untracked

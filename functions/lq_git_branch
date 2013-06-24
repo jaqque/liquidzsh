@@ -11,4 +11,4 @@ if [[ $? -ne 0 || -z "$branch" ]] ; then
 fi
 [[ $? -ne 0 || -z "$branch" ]] && return
 branch="${branch#refs/heads/}"
-echo $(_lq_escape "$branch")
+echo $(lq_escape "$branch")

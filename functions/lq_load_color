@@ -11,12 +11,12 @@
 [[ "$LQ_ENABLE_LOAD" != 1 ]] && return
 
 local load
-load="$(_lq_cpu_load | sed 's/\.//g;s/^0*//g' )"
-let "load=${load:-0}/$_lq_CPUNUM"
+load="$(lq_cpu_load | sed 's/\.//g;s/^0*//g' )"
+let "load=${load:-0}/$lq_CPUNUM"
 
 if [[ $load -ge $LQ_LOAD_THRESHOLD ]]
 then
-	local ret="$(_lq_heatmap $((load/20)))${LQ_MARK_LOAD}"
+	local ret="$(lq_heatmap $((load/20)))${LQ_MARK_LOAD}"
 
 	if [[ "$LQ_PERCENTS_ALWAYS" -eq "1" ]]; then
 		ret="${ret}$load%%"

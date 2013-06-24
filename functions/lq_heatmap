@@ -1,5 +1,5 @@
 # It is faster to do the math in the caller
-# _lq_heatmap $(( (value - LOWER_BOUND) / ( (UPPER_BOUND - LOWER-BOUND) / 10) ))
+# lq_heatmap $(( (value - LOWER_BOUND) / ( (UPPER_BOUND - LOWER-BOUND) / 10) ))
 # Range of 20 to 80: $(( (value - 20) / 6 ))
 
 case $1 in

@@ -8,7 +8,7 @@
 [[ "$LQ_ENABLE_GIT" != 1 ]] && return
 
 local branch
-branch=$(_lq_git_branch)
+branch=$(lq_git_branch)
 if [[ -n "$branch" ]] ; then
 
 	local GD

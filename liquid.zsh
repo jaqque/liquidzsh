@@ -53,9 +53,9 @@ esac
 
 # Get cpu count
 case "$LQ_OS" in
-    Linux)   _lq_CPUNUM=$( nproc 2>/dev/null || grep -c '^[Pp]rocessor' /proc/cpuinfo ) ;;
-    FreeBSD|Darwin) _lq_CPUNUM=$( sysctl -n hw.ncpu ) ;;
-    SunOS)   _lq_CPUNUM=$( kstat -m cpu_info | grep -c "module: cpu_info" ) ;;
+    Linux)   lq_CPUNUM=$( nproc 2>/dev/null || grep -c '^[Pp]rocessor' /proc/cpuinfo ) ;;
+    FreeBSD|Darwin) lq_CPUNUM=$( sysctl -n hw.ncpu ) ;;
+    SunOS)   lq_CPUNUM=$( kstat -m cpu_info | grep -c "module: cpu_info" ) ;;
 esac
 
 # get correct sed extended regular expresions flag
@@ -68,7 +68,7 @@ else
 fi
 
 # get current load
-source functions/$LQ_OS/_lq_cpu_load.zsh
+source functions/$LQ_OS/lq_cpu_load.zsh
 
 
 #################
@@ -81,10 +81,10 @@ colors
 
 typeset -A LQ_HEATMAP
 
-# define, run, and forget _lq_source_config()
-source functions/_lq_source_config.zsh
-_lq_source_config
-unset _lq_source_config
+# define, run, and forget lq_source_config()
+source functions/lq_source_config.zsh
+lq_source_config
+unset lq_source_config
 
 # Disable features if the tool is not installed
 [[ "$LQ_ENABLE_GIT"  = 1 ]] && { command -v git  >/dev/null || LQ_ENABLE_GIT=0  ; }
@@ -105,7 +105,7 @@ fi
 
 
 # Load string escape
-source functions/_lq_escape.zsh
+source functions/lq_escape.zsh
 
 ###############
 # Who are we? #
@@ -133,7 +133,7 @@ fi
 #################
 
 # Determine ssh/telnet/su/sudo
-source functions/_lq_connection.zsh
+source functions/lq_connection.zsh
 
 
 # Put the hostname if not locally connected
@@ -143,10 +143,10 @@ source functions/_lq_connection.zsh
 # build this just once
 
 # set LQ_HOST to current chroot, if any
-source functions/_lq_chroot.zsh
+source functions/lq_chroot.zsh
 LQ_HOST=''
-LQ_HOST=$(_lq_chroot)
-unset _lq_chroot
+LQ_HOST=$(lq_chroot)
+unset lq_chroot
 
 # If we are connected with a X11 support
 if [[ -n "$DISPLAY" ]] ; then
@@ -155,7 +155,7 @@ else
     LQ_HOST="${LQ_COLOR_X11_OFF}${LQ_HOST}@${LQ_RESET}"
 fi
 
-case "$(_lq_connection)" in
+case "$(lq_connection)" in
 lcl)
     if [[ "${LQ_HOSTNAME_ALWAYS}" -eq "0" ]] ; then
         # FIXME do we want to display the chroot if local?
@@ -192,11 +192,11 @@ tel)
 esac
 
 # Useless now, so undefine
-# unset _lq_connection
+# unset lq_connection
 
 
 # put an arrow if an http proxy is set
-source functions/_lq_proxy.zsh
+source functions/lq_proxy.zsh
 
 # Function that shortens
 # a very long path for display by removing
@@ -210,21 +210,21 @@ source functions/_lq_proxy.zsh
 # http://hbfs.wordpress.com/2009/09/01/short-pwd-in-bash-prompts/
 #
 # + keep some left part of the path if asked
-source functions/_lq_shorten_path.zsh
+source functions/lq_shorten_path.zsh
 
 # In bash shell, PROMPT_DIRTRIM is the number of directory to keep at the end
 # of the displayed path (if "\w" is present in the PS1 var).
 # liquidprompt can calculate this number under two condition, path shortening
 # must be activated and PROMPT_DIRTRIM must be already set.
-source functions/_lq_get_dirtrim.zsh
+source functions/lq_get_dirtrim.zsh
 
 # Display a ":"
 # colored in green if user have write permission on the current directory
 # colored in red if it have not.
-source functions/_lq_permissions_color.zsh
+source functions/lq_permissions_color.zsh
 
 # Display the current Python virtual environnement, if available.
-source functions/_lq_virtualenv.zsh
+source functions/lq_virtualenv.zsh
 
 
 ################
@@ -235,23 +235,23 @@ source functions/_lq_virtualenv.zsh
 # - detached screens sessions and/or tmux sessions running on the host
 # - attached running jobs (started with $ myjob &)
 # - attached stopped jobs (suspended with Ctrl-Z)
-source functions/_lq_jobcount_color.zsh
+source functions/lq_jobcount_color.zsh
 
 
 # Display the return value of the last command, if different from zero
-source functions/_lq_return_value.zsh
+source functions/lq_return_value.zsh
 
 
 ######################
 # VCS branch display #
 ######################
 
-source functions/_lq_are_vcs_disabled.zsh
+source functions/lq_are_vcs_disabled.zsh
 
 # GIT #
 
 # Get the branch name of the current directory
-source functions/_lq_git_branch.zsh
+source functions/lq_git_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is up to date
@@ -259,25 +259,25 @@ source functions/_lq_git_branch.zsh
 # - red if there is changes to commit
 #
 # Add the number of pending commits and the impacted lines.
-source functions/_lq_git_branch_color.zsh
+source functions/lq_git_branch_color.zsh
 
 
 # MERCURIAL #
 
 # Get the branch name of the current directory
-source functions/_lq_hg_branch.zsh
+source functions/lq_hg_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is up to date
 # - red if there is changes to commit
 # - TODO: yellow if there is some commits not pushed
-source functions/_lq_hg_branch_color.zsh
+source functions/lq_hg_branch_color.zsh
 
 # SUBVERSION #
 
 # Get the branch name of the current directory
 # For the first level of the repository, gives the repository name
-source functions/_lq_svn_branch.zsh
+source functions/lq_svn_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is clean
@@ -286,13 +286,13 @@ source functions/_lq_svn_branch.zsh
 # - red if there is changes to commit
 # Note that, due to subversion way of managing changes,
 # informations are only displayed for the CURRENT directory.
-source functions/_lq_svn_branch_color.zsh
+source functions/lq_svn_branch_color.zsh
 
 
 # FOSSIL #
 
 # Get the tag name of the current directory
-source functions/_lq_fossil_branch.zsh
+source functions/lq_fossil_branch.zsh
 
 # Set a color depending on the branch state:
 # - green if the repository is clean
@@ -302,12 +302,12 @@ source functions/_lq_fossil_branch.zsh
 # Add the number of impacted files with a
 # + when files are ADDED or EDITED
 # - when files are DELETED
-source functions/_lq_fossil_branch_color.zsh
+source functions/lq_fossil_branch_color.zsh
 
 # Bazaar #
 
 # Get the branch name of the current directory
-source functions/_lq_bzr_branch.zsh
+source functions/lq_bzr_branch.zsh
 
 
 # Set a color depending on the branch state:
@@ -316,7 +316,7 @@ source functions/_lq_bzr_branch.zsh
 # - TODO: yellow if there is some commits not pushed
 #
 # Add the number of pending commits and the impacted lines.
-source functions/_lq_bzr_branch_color.zsh
+source functions/lq_bzr_branch_color.zsh
 
 
 ##################
@@ -329,7 +329,7 @@ source functions/_lq_bzr_branch_color.zsh
 # returns 2 (and battery level) if battery is charging but under threshold
 # returns 3 (and battery level) if battery is charging and above threshold
 # returns 4 if no battery support
-source functions/_lq_battery.zsh
+source functions/lq_battery.zsh
 
 # Compute a gradient of background/foreground colors depending on the battery status
 # Display:
@@ -337,73 +337,73 @@ source functions/_lq_battery.zsh
 # a yellow ⏚ if the battery is charging    and under threshold
 # a yellow ⌁ if the battery is discharging but above threshold
 # a    red ⌁ if the battery is discharging and above threshold
-source functions/_lq_battery_color.zsh
+source functions/lq_battery_color.zsh
 
 # Color gradient, from okay to critical
-source functions/_lq_heatmap.zsh
+source functions/lq_heatmap.zsh
 
 ###############
 # System load #
 ###############
 
 # Compute a gradient of background/forground colors depending on the battery status
-source functions/_lq_load_color.zsh
+source functions/lq_load_color.zsh
 
 ######################
 # System temperature #
 ######################
 
-source functions/_lq_temp_sensors.zsh
+source functions/lq_temp_sensors.zsh
 
-# Will set _lq_temp_function so the temperature monitoring feature use an
-# available command. _lq_temp_function should return only a numeric value
+# Will set lq_temp_function so the temperature monitoring feature use an
+# available command. lq_temp_function should return only a numeric value
 if [[ "$LQ_ENABLE_TEMP" = 1 ]]; then
     if command -v sensors >/dev/null; then
-        _lq_temp_function=_lq_temp_sensors
+        lq_temp_function=_lq_temp_sensors
     # elif command -v the_command_you_want_to_use; then
-    #   _lq_temp_function=your_function
+    #   lq_temp_function=your_function
     else
         LQ_ENABLE_TEMP=0
     fi
 fi
 
-source functions/_lq_temperature.zsh
+source functions/lq_temperature.zsh
 
 ##########
 # DESIGN #
 ##########
 
 # Remove all colors and escape characters of the given string and return a pure text
-source functions/_lq_as_text.zsh
+source functions/lq_as_text.zsh
 
-source functions/_lq_title.zsh
+source functions/lq_title.zsh
 
 # Set the prompt mark to ± if git, to ☿ if mercurial, to ‡ if subversion
 # to # if root and else $
-source functions/_lq_smart_mark.zsh
+source functions/lq_smart_mark.zsh
 
 # insert a space on the right
-source functions/_lq_sr.zsh
+source functions/lq_sr.zsh
 
 # insert a space on the left
-source functions/_lq_sl.zsh
+source functions/lq_sl.zsh
 
 # insert two space, before and after
-source functions/_lq_sb.zsh
+source functions/lq_sb.zsh
 
 ###################
 # CURRENT TIME    #
 ###################
-source functions/_lq_time_analog.zsh
+source functions/lq_time_analog.zsh
 
-source functions/_lq_time.zsh
+source functions/lq_time.zsh
 
 ########################
 # Construct the prompt #
 ########################
 
 
-source functions/_lq_set_prompt.zsh
+source functions/lq_set_prompt.zsh
 
 source functions/prompt_tag.zsh
 

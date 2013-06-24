@@ -15,5 +15,5 @@ if [[ "$url" == */trunk* ]] ; then
 	echo -n trunk
 else
 	result=$(expr "$url" : '.*/branches/\([^/]*\)' || expr "$url" : '/\([^/]*\)' || basename "$root")
-	echo -n $result # FIXME should be: echo -n $(_lq_escape "${result}")
+	echo -n $result # FIXME should be: echo -n $(lq_escape "${result}")
 fi

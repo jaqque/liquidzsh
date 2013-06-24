@@ -4,4 +4,4 @@
 local branch
 branch=$(bzr nick 2> /dev/null)
 [[ $? -ne 0 ]] && return
-echo $(_lq_escape "$branch")
+echo $(lq_escape "$branch")

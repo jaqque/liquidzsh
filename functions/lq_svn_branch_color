@@ -9,7 +9,7 @@
 [[ "$LQ_ENABLE_SVN" != 1 ]] && return
 
 local branch
-branch="$(_lq_svn_branch)"
+branch="$(lq_svn_branch)"
 if [[ -n "$branch" ]] ; then
 	local commits
 	changes=$(( $(svn status $LQ_SVN_STATUS_OPTIONS | grep -c -v "?") ))

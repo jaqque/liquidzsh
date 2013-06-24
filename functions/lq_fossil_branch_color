@@ -10,7 +10,7 @@
 [[ "$LQ_ENABLE_FOSSIL" != 1 ]] && return
 
 local branch
-branch=$(_lq_fossil_branch)
+branch=$(lq_fossil_branch)
 
 if [[ -n "$branch" ]] ; then
 	local C2E # Modified files (added or edited)
@@ -58,5 +58,5 @@ if [[ -n "$branch" ]] ; then
 			branch="${LQ_COLOR_CHANGES}$branch${LQ_RESET}$ret${LQ_COLOR_CHANGES}$C2A${LQ_RESET}"
 		fi
 	fi
-	echo -ne $branch # $(_lq_escape "$branch")
+	echo -ne $branch # $(lq_escape "$branch")
 fi
