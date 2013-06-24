@@ -144,6 +144,9 @@ source functions/_lq_connection.zsh
 
 # set LQ_HOST to current chroot, if any
 source functions/_lq_chroot.zsh
+LQ_HOST=''
+LQ_HOST=$(_lq_chroot)
+unset _lq_chroot
 
 # If we are connected with a X11 support
 if [[ -n "$DISPLAY" ]] ; then

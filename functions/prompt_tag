@@ -1,5 +1,1 @@
-prompt_tag()
-{
-    export LQ_PS1_PREFIX=$(_lq_sr "$1")
-}
-
+export LQ_PS1_PREFIX=$(_lq_sr "$1")
