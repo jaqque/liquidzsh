@@ -360,7 +360,7 @@ Liquid is based on nojhan's [Liquid prompt](https://github.com/nojhan/liquidprom
 * [David Loureiro]    (<mailto:david.loureiro@sysfera.com>  "small portability fix")
 * [Étienne Deparis]   (<mailto:etienne.deparis@umaneti.net> "Fossil support")
 * [Florian Le Frioux] (<mailto:florian@lefrioux.fr>         "Use ± mark when root in VCS dir.")
-* [François Schmidts] (<mailto:francois.schmidts@gmail.com> "small code fix, _lq_get_dirtrim")
+* [François Schmidts] (<mailto:francois.schmidts@gmail.com> "small code fix, _lp_get_dirtrim")
 * [Frédéric Lepied]   (<mailto:flepied@gmail.com>           "Python virtual env")
 * [Jonas Bengtsson]   (<mailto:jonas.b@gmail.com>           "Git remotes fix")
 * [Joris Dedieu]      (<mailto:joris@pontiac3.nfrance.com>  "Portability framework, FreeBSD support, bugfixes.")
