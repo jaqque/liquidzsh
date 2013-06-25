@@ -382,15 +382,6 @@ source functions/lq_title.zsh
 # to # if root and else $
 source functions/lq_smart_mark.zsh
 
-# insert a space on the right
-source functions/lq_sr.zsh
-
-# insert a space on the left
-source functions/lq_sl.zsh
-
-# insert two space, before and after
-source functions/lq_sb.zsh
-
 ###################
 # CURRENT TIME    #
 ###################
