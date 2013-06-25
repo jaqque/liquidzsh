@@ -15,7 +15,7 @@ case "$TERM" in
 	local title=""
   ;;
   *)
-	local title="${_LQ_OPEN_ESC}${LQ_TITLE_OPEN}${txt}${LQ_TITLE_CLOSE}${_LQ_CLOSE_ESC}"
+	local title="%{${LQ_TITLE_OPEN}${txt}${LQ_TITLE_CLOSE}%}"
   ;;
 esac
 echo -n "${title}"
