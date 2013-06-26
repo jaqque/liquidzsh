@@ -1,0 +1,27 @@
+# Based upon OSTYPE, get the system load
+
+case $OSTYPE in
+	(darwin*|freebsd*) lq_cpu_load () {
+			local load junk
+			LANG=C sysctl -n vm.loadavg | read junk load junk
+			echo "$load"
+		} ;;
+	(linux*) lq_cpu_load () {
+			local load eol
+			read load eol < /proc/loadavg
+			echo "$load"
+		} ;;
+	# example solaris 10 uptime(1) output:
+    # 5:39pm  up 1049 day(s),  1:05,  21 users,  load average: 1.07, 1.12, 1.22
+	(solaris*) lq_cpu_load () {
+			local load
+			LANG=C uptime | read -A load
+			echo ${load[10]%,}
+		} ;;
+	(*) lq_cpu_load () {
+			echo 0
+		} ;;
+esac
+
+# if we run it, then it will load
+lq_cpu_load
